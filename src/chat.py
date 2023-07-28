@@ -211,7 +211,11 @@ else:
     st.image("resource/logo.jpg")
     with st.form("UserInfo"):
         input_name = st.text_input("Name")
-        select_room_id = st.selectbox("ルームを選択", options=["Room1", "Room2", "Room3"])
+        tabs=st.tabs(["Open","Private"])
+        with tabs[0]:
+            select_room_id = st.selectbox("ルームを選択", options=["Room1", "Room2", "Room3"])
+        with tabs[1]:
+            select_room_id = st.text_input("ルームIDを入力")
         if st.form_submit_button("Join"):
             st.session_state.chat_id = select_room_id
             if input_name:
