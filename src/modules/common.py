@@ -41,7 +41,6 @@ def hide_style():
                     }
                     .block-container {
                     padding-top: 1rem;
-                    padding-bottom: 0rem;
                     }
                     [data-testid="stToolbar"] {visibility: hidden !important;}
                     footer {visibility: hidden !important;}
