@@ -66,20 +66,7 @@ if member_names_text:
     text=f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}"
 else:
     text=f"{st.session_state.chat_id} ：No Members"
-    
-html=f"""
-    <header class="ly_header">{text}</header>
-    
-    <style>
-    .ly_header {{
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-}}
-</style>
-    """
-components.html(html)
-    
+
 if st.session_state.name:
     if st.button("Exit"):
         back_to_top()
@@ -90,7 +77,7 @@ if st.session_state.name:
     clicked = click_detector(content)
     if clicked:
         switch_page("brains")
-
+    st.caption(text)
     db.insert_member(st.session_state.chat_id, st.session_state.name)
 
     messages = []
