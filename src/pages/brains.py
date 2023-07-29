@@ -61,6 +61,52 @@ st.write("")
 if st.button("Back to Chat"):
     switch_page("chat")
 
+with st.expander("Config"):
+    st.session_state.brains_action=st.selectbox("応答方法を選択",options=["デフォルト","キープ","メンション"],help="いずれのモードでもメンションで指定が可能")
+    
+    if st.session_state.brains_action=="メンション":
+        st.write("「@名前」で個別、複数指定。「@all」で全員が応答。")
+    elif st.session_state.brains_action=="キープ":
+        st.write("直近に発言したbrAInが応答する。")
+    elif st.session_state.brains_action=="デフォルト":
+        st.write("ランダムにbrAInが応答する。")
+    
+    
+    with open("src/pages/brains_info.json", "r", encoding="utf-8") as f:
+        brains_info = json.loads(f.read())
+    
+    st.write("---")
+    brains_options = list(brains_info.keys())
+    preset = st.selectbox("プリセットを選ぶ", options=brains_options)
+    
+    if preset != "指定なし":
+        if preset == "ランダム生成":
+            ai_set = create_random_brains()
+        else:
+            ai_set = brains_info[preset]
+    
+        db.reset_character_persona(st.session_state.chat_id)
+    
+        for persona_name, discription in ai_set:
+            db.update_character_persona(st.session_state.chat_id, persona_name, discription)
+    
+    
+    st.write("---")
+    st.write("BrAInを追加・更新、削除")
+    persona_name = st.text_input(
+            label="名前",
+        )
+    discription = st.text_area(
+            label="役割",
+        )
+    if st.button("追加・更新"):
+            # Set persona
+        db.update_character_persona(st.session_state.chat_id, persona_name, discription)
+        st.experimental_rerun()
+    if st.button("削除"):
+        db.delete_character_persona(st.session_state.chat_id, persona_name)
+        st.experimental_rerun()
+    
 st.write("## BrAIns")
 personas = db.get_character_personas(st.session_state.chat_id)
 ai_list = "\n".join(f"|{info[1]}|{info[0]}|" for info in personas)
@@ -73,47 +119,3 @@ st.write(
 )
 st.write("")
 
-st.session_state.brains_action=st.selectbox("応答方法を選択",options=["デフォルト","キープ","メンション"],help="いずれのモードでもメンションで指定が可能")
-
-if st.session_state.brains_action=="メンション":
-    st.write("「@名前」で個別、複数指定。「@all」で全員が応答。")
-elif st.session_state.brains_action=="キープ":
-    st.write("直近に発言したbrAInが応答する。")
-elif st.session_state.brains_action=="デフォルト":
-    st.write("ランダムにbrAInが応答する。")
-
-
-with open("src/pages/brains_info.json", "r", encoding="utf-8") as f:
-    brains_info = json.loads(f.read())
-
-brains_options = list(brains_info.keys())
-
-preset = st.selectbox("プリセットを選ぶ", options=brains_options)
-
-if preset != "指定なし":
-    if preset == "ランダム生成":
-        ai_set = create_random_brains()
-    else:
-        ai_set = brains_info[preset]
-
-    db.reset_character_persona(st.session_state.chat_id)
-
-    for persona_name, discription in ai_set:
-        db.update_character_persona(st.session_state.chat_id, persona_name, discription)
-
-
-st.write("")
-with st.expander("BrAInを追加・更新、削除"):
-    persona_name = st.text_input(
-        label="名前",
-    )
-    discription = st.text_area(
-        label="役割",
-    )
-    if st.button("追加・更新"):
-        # Set persona
-        db.update_character_persona(st.session_state.chat_id, persona_name, discription)
-        st.experimental_rerun()
-    if st.button("削除"):
-        db.delete_character_persona(st.session_state.chat_id, persona_name)
-        st.experimental_rerun()
