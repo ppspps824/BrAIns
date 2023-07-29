@@ -225,11 +225,11 @@ if st.session_state.name:
     <header class="ly_header">{text}</header>
     
     <style>
-    .ly_header {
+    .ly_header {{
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-}
+}}
 </style>
     """
     components.html(html)
