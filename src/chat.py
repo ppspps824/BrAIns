@@ -70,8 +70,7 @@ if st.session_state.name:
         st.image("resource/logo.jpg")
         if st.session_state.name:
             if member_names_text:
-                st.caption(f"{st.session_state.chat_id} ：@{member_names_text}")
-                st.caption(f"mode:{st.session_state.brains_action}")
+                st.caption(f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}")
             else:
                 st.caption(f"{st.session_state.chat_id} ：No Members")
     with col2:
