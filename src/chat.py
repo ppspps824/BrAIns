@@ -56,9 +56,6 @@ def back_to_top():
     st.session_state.name = ""
     st.experimental_rerun()
 
-
-col1, col2 = st.columns([8, 2])
-
 members = db.get_member(st.session_state.chat_id)
 if members:
     members = members[0]
@@ -238,3 +235,27 @@ else:
                     st.warning("名前が他の参加者と重複しています。")
             else:
                 st.warning("名前とルームIDを入力してください。")
+    
+    with st.expander("BrAInsとは"):
+        st.write("""
+        AI参加型のマルチチャットです。
+        参加するAIのことをBrAInと呼びます。
+        
+        ### 開始方法
+        名前とルーム名を入力し、Joinボタンを押すでチャットが開始します。
+        ルーム名は既に存在する場合は参加となり、存在しない場合は新しいルームが作成されます。
+        ルーム名を共有することでプライベートチャットに参加してもらうことができます。
+        
+        ### チャット画面
+        ページ下部の入力欄にメッセージを入力することで発言できます。
+        BrAInを参加させるためにはロゴを押し、コンフィグ画面に飛びます。
+        コンフィグ画面より参加させるBrAInの設定ができます。
+        基本的には@BrAIn名や@allなどで会話できます。
+        
+        ### コンフィグ画面
+        チャット画面のロゴを押すことで表示できます。
+        ブレストや雑談などのプリセットから参加させるBrAInを選択したり、応答方法を選択できます。
+        また、BrAInsをランダム生成したり、独自のBrAInを設定することもできます。
+        
+        """
+
