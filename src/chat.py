@@ -1,4 +1,3 @@
-# This page is for chat
 import datetime
 import os
 import time
@@ -69,7 +68,7 @@ member_names_text = ",".join(member_names)
 if st.session_state.name:
     with col1:
         content = """
-    <a href='#' id='Image 1'><img src='resource/logo.jpg'></a>
+    <a href='#' id='Image 1'><img src='https://drive.google.com/uc?id=1_5TDgdI68fhrUes5l31KOBmKt50C4ejp'></a>
     """
         clicked = click_detector(content)
         if clicked:
