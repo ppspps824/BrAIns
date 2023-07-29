@@ -198,9 +198,8 @@ if st.session_state.name:
                 for msg in completion:
                     assistant_msg = msg["choices"][0]["delta"].get("content", "")
                     all_msg += assistant_msg
+                    all_msg=all_msg.replace(f"@{info}","")
                     msg_place.write(current_ai_name + ":\n\n" + all_msg)
-            
-            all_msg=all_msg.replace(f"@{info}","")
             
             messages[-1]["content"] += all_msg
 
