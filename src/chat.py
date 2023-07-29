@@ -66,26 +66,21 @@ member_names = list(set(members)) + ai_list
 member_names_text = ",".join(member_names)
 
 if st.session_state.name:
-    with col1:
-        content = """
+    content = """
     <a href='#' id='Image 1'><img width="100%" src='https://drive.google.com/uc?id=1_5TDgdI68fhrUes5l31KOBmKt50C4ejp'></a>
     """
-        clicked = click_detector(content)
-        if clicked:
-            switch_page("brains")
-        if st.session_state.name:
-            if member_names_text:
-                st.caption(f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}")
-            else:
-                st.caption(f"{st.session_state.chat_id} ：No Members")
-    with col2:
-        if st.session_state.chat_id:
-            st.write("")
-            st.write("")
-            
-            if st.button("Exit"):
-                back_to_top()
+    clicked = click_detector(content)
+    if clicked:
+        switch_page("brains")
 
+    if st.button("Exit"):
+        back_to_top()
+        
+    if member_names_text:
+        st.caption(f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}")
+    else:
+        st.caption(f"{st.session_state.chat_id} ：No Members")
+        
     db.insert_member(st.session_state.chat_id, st.session_state.name)
 
     messages = []
