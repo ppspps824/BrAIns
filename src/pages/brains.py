@@ -57,7 +57,7 @@ Please do not explain the contents, etc., and output only the generated product.
 
     return gen_ai_set
 
-
+st.write("")
 if st.button("Back to Chat"):
     switch_page("chat")
 
