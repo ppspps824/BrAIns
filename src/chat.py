@@ -68,7 +68,9 @@ member_names_text = ",".join(member_names)
 
 if st.session_state.name:
     with col1:
-        img = image_select(" ", ["resource/logo.jpg"])
+        img = image_select(" ", ["","resource/logo.jpg"])
+        if img:
+            switch_page("brains")
         if st.session_state.name:
             if member_names_text:
                 st.caption(f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}")
@@ -78,8 +80,7 @@ if st.session_state.name:
         if st.session_state.chat_id:
             st.write("")
             st.write("")
-            if img:
-                switch_page("brains")
+            
             if st.button("Exit"):
                 back_to_top()
 
