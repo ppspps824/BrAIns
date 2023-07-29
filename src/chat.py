@@ -156,6 +156,7 @@ if st.session_state.name:
         messages.append({"role": "user", "content": name + " said " + user_msg})
         user_msg = user_msg.replace("＠", "@")
         
+        action_list=[]
         if "@" in user_msg:
             if "@all" in user_msg:
                 action_list = ai_list.copy()
@@ -165,10 +166,10 @@ if st.session_state.name:
             if len(ai_list):
                 if st.session_state.brains_action == "キープ":
                     if st.session_state.current_ai_name:
-                        action_list.append(st.session_state.current_ai_name)
+                        action_list=[st.session_state.current_ai_name]
         
                 if st.session_state.brains_action == "デフォルト":
-                    action_list += random.sample(ai_list, random.randint(1, len(ai_list)))
+                    action_list =random.sample(ai_list, random.randint(1, len(ai_list)))
     
         if action_list:
             if st.button("ストップ"):
