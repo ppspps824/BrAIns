@@ -72,15 +72,16 @@ if st.session_state.name:
     clicked = click_detector(content)
     if clicked:
         switch_page("brains")
-
-    if st.button("Exit"):
-        back_to_top()
-        
-    if member_names_text:
-        st.caption(f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}")
-    else:
-        st.caption(f"{st.session_state.chat_id} ：No Members")
-        
+    col1,_,col3=st.columns([3,1,3])
+    with col1:
+        if member_names_text:
+            st.caption(f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}")
+        else:
+            st.caption(f"{st.session_state.chat_id} ：No Members")
+    with col3:
+        if st.button("Exit"):
+            back_to_top()
+            
     db.insert_member(st.session_state.chat_id, st.session_state.name)
 
     messages = []
