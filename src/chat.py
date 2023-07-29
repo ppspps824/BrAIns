@@ -13,7 +13,7 @@ from streamlit_extras.switch_page_button import switch_page
 import const
 from modules import common
 from modules.database import database
-from streamlit_image_select import image_select
+from st_click_detector import click_detector
 
 st.set_page_config(
     page_title="BrAIns", page_icon="🤖", initial_sidebar_state="collapsed"
@@ -68,8 +68,11 @@ member_names_text = ",".join(member_names)
 
 if st.session_state.name:
     with col1:
-        img = image_select(" ", ["","resource/logo.jpg"])
-        if img:
+        content = """
+    <a href='#' id='Image 1'><img src='./resource/logo.jpg'></a>
+    """
+        clicked = click_detector(content)
+        if clicked:
             switch_page("brains")
         if st.session_state.name:
             if member_names_text:
