@@ -62,7 +62,24 @@ if members:
     
 member_names = list(set(members)) + ai_list
 member_names_text = ",".join(member_names)
-
+if member_names_text:
+    text=f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}"
+else:
+    text=f"{st.session_state.chat_id} ：No Members"
+    
+html=f"""
+    <header class="ly_header">{text}</header>
+    
+    <style>
+    .ly_header {{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}}
+</style>
+    """
+components.html(html)
+    
 if st.session_state.name:
     if st.button("Exit"):
         back_to_top()
@@ -213,26 +230,6 @@ if st.session_state.name:
                     action_list.append(ai_name)
 
             st.session_state.current_ai_name = current_ai_name
-    
-    if member_names_text:
-        text=(
-            f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}"
-        )
-    else:
-        text(f"{st.session_state.chat_id} ：No Members")
-    
-    html=f"""
-    <header class="ly_header">{text}</header>
-    
-    <style>
-    .ly_header {{
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-}}
-</style>
-    """
-    components.html(html)
     
 
     # Refresh the page every (REFRESH_INTERVAL) seconds
