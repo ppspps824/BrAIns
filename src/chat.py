@@ -226,7 +226,7 @@ else:
     st.image("resource/logo.jpg")
     with st.form("UserInfo"):
         input_name = st.text_input("Name")
-        input_room_id = st.text_input("ルームIDを入力")
+        input_room_id = st.text_input("ルーム名を入力")
         
         if st.form_submit_button("Join"):
             st.session_state.chat_id = input_room_id
