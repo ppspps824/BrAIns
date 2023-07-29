@@ -7,6 +7,7 @@ from st_click_detector import click_detector
 from streamlit_autorefresh import st_autorefresh
 from streamlit_extras.buy_me_a_coffee import button
 from streamlit_extras.switch_page_button import switch_page
+import streamlit.components.v1 as components
 
 import const
 from modules import common
@@ -212,14 +213,27 @@ if st.session_state.name:
                     action_list.append(ai_name)
 
             st.session_state.current_ai_name = current_ai_name
-
+    
     if member_names_text:
-        st.caption(
+        text=(
             f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}"
         )
     else:
-        st.caption(f"{st.session_state.chat_id} ：No Members")
-
+        text(f"{st.session_state.chat_id} ：No Members")
+    
+    html=f"""
+    <header class="ly_header">{text}</header>
+    
+    <style>
+    .ly_header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+</style>
+    """
+    components.html(html)
+    
 
     # Refresh the page every (REFRESH_INTERVAL) seconds
     count = st_autorefresh(
