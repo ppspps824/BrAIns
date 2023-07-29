@@ -73,13 +73,6 @@ if st.session_state.name:
     if clicked:
         switch_page("brains")
 
-    if member_names_text:
-        st.caption(
-            f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}"
-        )
-    else:
-        st.caption(f"{st.session_state.chat_id} ：No Members")
-
     db.insert_member(st.session_state.chat_id, st.session_state.name)
 
     messages = []
@@ -219,6 +212,14 @@ if st.session_state.name:
                     action_list.append(ai_name)
 
             st.session_state.current_ai_name = current_ai_name
+
+    if member_names_text:
+        st.caption(
+            f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}"
+        )
+    else:
+        st.caption(f"{st.session_state.chat_id} ：No Members")
+
 
     # Refresh the page every (REFRESH_INTERVAL) seconds
     count = st_autorefresh(
