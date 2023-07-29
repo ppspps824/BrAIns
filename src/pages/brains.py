@@ -90,6 +90,19 @@ st.write(
 )
 st.write("")
 
+st.session_state.brains_action=st.selectbox("応答方法を選択",options=["メンション","カレント","ランダム"])
+
+if st.session_state.brains_action=="デフォルト":
+    st.write("「@名前」で個別、複数指定。「@all」で全員が応答。")
+elif st.session_state.brains_action=="カレント":
+    st.write("直近に発言したbrAInが応答する。")
+elif st.session_state.brains_action=="ランダム":
+    st.write("ランダムにbrAInが応答する。")
+
+st.caption("いずれのモードでもメンションで指定が可能")
+
+
+st.write("")
 with st.expander("AIを追加・更新、削除"):
     persona_name = st.text_input(
         label="名前",
