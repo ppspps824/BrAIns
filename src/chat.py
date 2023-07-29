@@ -231,7 +231,7 @@ else:
         
         if st.form_submit_button("Join"):
             st.session_state.chat_id = input_room_id
-            if all(input_name,input_room_id):
+            if all([input_name,input_room_id]):
                 if input_name not in member_names:
                     st.session_state.name = input_name
                     st.experimental_rerun()
