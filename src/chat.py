@@ -199,7 +199,9 @@ if st.session_state.name:
                     assistant_msg = msg["choices"][0]["delta"].get("content", "")
                     all_msg += assistant_msg
                     msg_place.write(current_ai_name + ":\n\n" + all_msg)
-
+            
+            all_msg=all_msg.replace(f"@{info}","")
+            
             messages[-1]["content"] += all_msg
 
             db.insert_chat_log(
@@ -209,6 +211,7 @@ if st.session_state.name:
                 message=all_msg,
                 sent_time=datetime.datetime.now(),
             )
+            
             # メンションチェック
             for ai_name in ai_list:
                 if f"@{ai_name}" in all_msg:
