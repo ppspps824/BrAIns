@@ -2,6 +2,7 @@
 import datetime
 import os
 import time
+import random
 
 import openai
 import streamlit as st
@@ -22,6 +23,8 @@ common.hide_style()
 if "name" not in st.session_state:
     st.session_state.name = ""
     st.session_state.chat_id = ""
+    st.session_state.brains_action="デフォルト"
+    st.session_state.current_ai_name=""
 
 
 db = database.Database()
@@ -157,13 +160,21 @@ if st.session_state.name:
         messages.append({"role": "user", "content": name + " said " + user_msg})
         user_msg = user_msg.replace("＠", "@")
         if "@all" in user_msg:
-            mention_list = ai_list.copy()
+            action_list = ai_list.copy()
         else:
-            mention_list = [info for info in ai_list if f"@{info}" in user_msg]
-        if mention_list:
+            action_list = [info for info in ai_list if f"@{info}" in user_msg]
+        
+        if st.session_state.brains_action=="カレント":
+            action_list.append(st.session_state.current_ai_name)
+        
+        if st.session_state.brains_action=="ランダム":
+            action_list.append(random.sample(ai_list),random.randint(1,len(ai_list)))
+        
+        
+        if action_list:
             if st.button("ストップ"):
                 st.experimental_rerun()
-        for num, current_ai_name in enumerate(mention_list):
+        for num, current_ai_name in enumerate(action_list):
             all_msg = ""
             ai_info = [info for info in personas if info[1] == current_ai_name][0]
             current_msg = messages[-1]["content"]
@@ -201,7 +212,9 @@ if st.session_state.name:
             # メンションチェック
             for ai_name in ai_list:
                 if f"@{ai_name}" in all_msg:
-                    mention_list.append(ai_name)
+                    action_list.append(ai_name)
+            
+            st.session_state.current_ai_name=current_ai_name
 
     # Refresh the page every (REFRESH_INTERVAL) seconds
     count = st_autorefresh(
