@@ -166,7 +166,6 @@ if st.session_state.name:
         
         if st.session_state.brains_action=="カレント":
             action_list.append(st.session_state.current_ai_name)
-            st.write(action_list)
         
         if st.session_state.brains_action=="ランダム":
             action_list +=random.sample(ai_list,random.randint(1,len(ai_list)))
