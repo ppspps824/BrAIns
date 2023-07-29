@@ -231,11 +231,11 @@ else:
         
         if st.form_submit_button("Join"):
             st.session_state.chat_id = input_room_id
-            if input_name:
+            if all(input_name,input_room_id):
                 if input_name not in member_names:
                     st.session_state.name = input_name
                     st.experimental_rerun()
                 else:
                     st.warning("名前が他の参加者と重複しています。")
             else:
-                st.warning("名前を入力してください。")
+                st.warning("名前とルームIDを入力してください。")
