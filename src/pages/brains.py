@@ -90,13 +90,13 @@ st.write(
 )
 st.write("")
 
-st.session_state.brains_action=st.selectbox("応答方法を選択",options=["デフォルト","カレント","ランダム"],help="いずれのモードでもメンションで指定が可能")
+st.session_state.brains_action=st.selectbox("応答方法を選択",options=["デフォルト","キープ","メンション"],help="いずれのモードでもメンションで指定が可能")
 
-if st.session_state.brains_action=="デフォルト":
+if st.session_state.brains_action=="メンション":
     st.write("「@名前」で個別、複数指定。「@all」で全員が応答。")
-elif st.session_state.brains_action=="カレント":
+elif st.session_state.brains_action=="キープ":
     st.write("直近に発言したbrAInが応答する。")
-elif st.session_state.brains_action=="ランダム":
+elif st.session_state.brains_action=="デフォルト":
     st.write("ランダムにbrAInが応答する。")
 
 
