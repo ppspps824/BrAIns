@@ -1,6 +1,5 @@
 import streamlit as st
 from streamlit.runtime.scriptrunner.script_run_context import get_script_run_ctx
-from streamlit_extras.buy_me_a_coffee import button
 
 
 def get_session_id():
@@ -48,4 +47,3 @@ def hide_style():
                     </style>
                     """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-    button(username="papasim824C", floating=True, width=221)

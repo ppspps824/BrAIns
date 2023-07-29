@@ -5,6 +5,7 @@ import openai
 import streamlit as st
 from st_click_detector import click_detector
 from streamlit_autorefresh import st_autorefresh
+from streamlit_extras.buy_me_a_coffee import button
 from streamlit_extras.switch_page_button import switch_page
 
 import const
@@ -256,3 +257,4 @@ else:
         
         """
         )
+    button(username="papasim824C", floating=False, width=221)
