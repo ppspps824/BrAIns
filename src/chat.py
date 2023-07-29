@@ -168,7 +168,7 @@ if st.session_state.name:
             action_list.append(st.session_state.current_ai_name)
         
         if st.session_state.brains_action=="ランダム":
-            action_list.append(random.sample(ai_list,random.randint(1,len(ai_list)))
+            action_list.append(random.sample(ai_list,random.randint(1,len(ai_list))))
         
         
         if action_list:
