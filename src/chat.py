@@ -13,6 +13,7 @@ from streamlit_extras.switch_page_button import switch_page
 import const
 from modules import common
 from modules.database import database
+from streamlit_image_select import image_select
 
 st.set_page_config(
     page_title="BrAIns", page_icon="🤖", initial_sidebar_state="collapsed"
@@ -67,7 +68,7 @@ member_names_text = ",".join(member_names)
 
 if st.session_state.name:
     with col1:
-        st.image("resource/logo.jpg")
+        img = image_select(" ", ["resource/logo.jpg"])
         if st.session_state.name:
             if member_names_text:
                 st.caption(f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}")
@@ -77,10 +78,9 @@ if st.session_state.name:
         if st.session_state.chat_id:
             st.write("")
             st.write("")
-            select_option = st.selectbox("Options", options=["", "Config", "Exit"])
-            if select_option == "Config":
+            if img:
                 switch_page("brains")
-            if select_option == "Exit":
+            if st.button("Exit"):
                 back_to_top()
 
     db.insert_member(st.session_state.chat_id, st.session_state.name)
