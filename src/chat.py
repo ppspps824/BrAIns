@@ -57,6 +57,9 @@ def back_to_top():
 
 members = db.get_member(st.session_state.chat_id)
 st.write(members)
+if members:
+    members = members[0]
+    
 member_names = list(set(members)) + ai_list
 member_names_text = ",".join(member_names)
 
