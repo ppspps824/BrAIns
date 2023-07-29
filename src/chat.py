@@ -165,7 +165,8 @@ if st.session_state.name:
             action_list = [info for info in ai_list if f"@{info}" in user_msg]
         
         if st.session_state.brains_action=="カレント":
-            action_list.append(st.session_state.current_ai_name)
+            if st.session_state.current_ai_name:
+                action_list.append(st.session_state.current_ai_name)
         
         if st.session_state.brains_action=="ランダム":
             action_list +=random.sample(ai_list,random.randint(1,len(ai_list)))
