@@ -69,7 +69,7 @@ member_names_text = ",".join(member_names)
 if st.session_state.name:
     with col1:
         content = """
-    <a href='#' id='Image 1'><img src='./resource/logo.jpg'></a>
+    <a href='#' id='Image 1'><img src='resource/logo.jpg'></a>
     """
         clicked = click_detector(content)
         if clicked:
