@@ -8,4 +8,3 @@ numpy==1.25.0
 Pillow==9.5.0
 openai
 streamlit_extras
-st-click-detector
