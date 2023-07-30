@@ -45,16 +45,28 @@ def hide_style():
                     [data-testid="stToolbar"] {visibility: hidden !important;}
                     footer {visibility: hidden !important;}
                     
-                    div:has( >.element-container div.floating) {
+                    div:has( >.element-container div.floating_right) {
                         display: flex;
                         flex-direction: column;
                         position: fixed;
                         text-align: right;
                     }
                     
-                    div.floating {
+                    div.floating_right {
                         height:0%;
                     }
+                    
+                    div:has( >.element-container div.floating_left) {
+                        display: flex;
+                        flex-direction: column;
+                        position: fixed;
+                        text-align: left;
+                    }
+                    
+                    div.floating_left {
+                        height:0%;
+                    }
+                    
                     </style>
                     """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
