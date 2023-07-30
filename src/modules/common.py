@@ -44,6 +44,18 @@ def hide_style():
                     }
                     [data-testid="stToolbar"] {visibility: hidden !important;}
                     footer {visibility: hidden !important;}
+                    
+                    .header {
+                          background: #fff;
+                          display: flex;
+                          top: 0;
+                          height: 100px;
+                          padding: 20px;
+                          position: fixed;
+                          justify-content: space-between;
+                          width: 100%;
+                        }
+                    
                     </style>
                     """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
