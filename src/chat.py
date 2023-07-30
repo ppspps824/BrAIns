@@ -7,6 +7,7 @@ from st_click_detector import click_detector
 from streamlit_autorefresh import st_autorefresh
 from streamlit_extras.buy_me_a_coffee import button
 from streamlit_extras.switch_page_button import switch_page
+import streamlit.components.v1 as components
 
 import const
 from modules import common
@@ -230,6 +231,11 @@ if st.session_state.name:
         interval=const.REFRESH_INTERVAL, limit=None, key="fizzbuzzcounter"
     )
 else:
+    content="""
+    <header class="user_header">
+    <div>ハロー</div>
+    </header>
+    """
     st.image("resource/logo.jpg")
     with st.form("UserInfo"):
         input_name = st.text_input("Name")
