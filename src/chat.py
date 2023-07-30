@@ -240,8 +240,8 @@ if st.session_state.name:
 else:
     st.image("resource/logo.jpg")
     with st.form("UserInfo"):
-        input_name = st.text_input("Name")
-        input_room_id = st.text_input("ルーム名を入力")
+        input_name = st.text_input("Name",placeholder="Jones")
+        input_room_id = st.text_input("Room",placeholder="Jones Film Club")
 
         if st.form_submit_button("Join"):
             st.session_state.chat_id = input_room_id
@@ -250,13 +250,41 @@ else:
                     st.session_state.name = input_name
                     st.experimental_rerun()
                 else:
-                    st.warning("名前が他の参加者と重複しています。")
+                    st.warning("Name is duplicated with another participant.")
             else:
-                st.warning("名前とルームIDを入力してください。")
+                st.warning("Enter your name and room name.")
 
     with st.expander("BrAInsとは"):
-        st.write(
+        select_lang=st.selectbox("Select Language",options=["ENG","JPN"])
+        
+        if select_lang=="ENG":
+            about_msg="""
+            AI(BrAIn)-participating multi-chat.
+
+        ### How to start
+        - Enter your name and room name, and press Join button to start chatting.
+        - If the room name already exists, you will be joined; if not, a new room will be created.
+        - If the room name does not exist, a new room will be created.
+
+        ### Chat Screen
+        - You can speak by typing your message in the input field at the bottom of the page.
+        - To join BrAIn, go to the configuration screen from 🤖 in the upper right corner and set it up.
+        - The default setting is random response, with @BrAIn name for individual response and @all for everyone response.
+
+        ### Config Screen
+        - You can view it by 🤖 in the upper right corner of the chat screen.
+        - You can select BrAIns to join from presets such as "Breast" and "Chat" and choose the response method.
+        - You can also randomly generate BrAIns or set your own BrAIns.
+
+        ### Donation Request
+        - Due to the personal development of this service, we have set a limit on the amount of OpenAI API usage.
+        - Therefore, if you exceed the monthly usage limit, AI functions will not be available.
+        - Donations will be returned to the amount used.
+        - Also, we are currently using GPT3.5 in order to have more users, but we are considering upgrading to GPT4 depending on how many people donate.
+        - Please click the 👇 button to make a donation. 🙇‍♂️
             """
+        elif select_lang=="JPN":
+            about_msg="""
         AI(BrAIn)参加型のマルチチャットです。
         
         ### 開始方法
@@ -281,6 +309,7 @@ else:
         - また、現在は多くの方にご利用いただくためにGPT3.5を利用していますが、寄付の状況を見てGPT4へのグレードアップも検討しております。
         - 是非👇のボタンより寄付をお願いいたます🙇‍♂️
         """
-        )
+        
+        st.write(about_msg)
         button(username="papasim824C", floating=False, width=221)
         st.caption("powered by ChatGPT API.")
