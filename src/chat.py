@@ -22,6 +22,7 @@ if "name" not in st.session_state:
     st.session_state.chat_id = ""
     st.session_state.brains_action = "デフォルト"
     st.session_state.current_ai_name = ""
+    st.session_state.language="ENG"
 
 
 db = database.Database()
@@ -238,6 +239,9 @@ if st.session_state.name:
         interval=const.REFRESH_INTERVAL, limit=None, key="fizzbuzzcounter"
     )
 else:
+    with st.container():
+        st.markdown('<div class="floating_right"></div>', unsafe_allow_html=True)
+        st.session_state.language=st.selectbox("Select Language",options=["ENG","JPN"])
     st.image("resource/logo.jpg")
     with st.form("UserInfo"):
         input_name = st.text_input("Name",placeholder="Jones")
@@ -255,9 +259,7 @@ else:
                 st.warning("Enter your name and room name.")
 
     with st.expander("About BrAIns"):
-        select_lang=st.selectbox("Select Language",options=["ENG","JPN"])
-        
-        if select_lang=="ENG":
+        if st.session_state.language=="ENG":
             about_msg="""
             AI(BrAIn)-participating multi-chat.
 
@@ -283,7 +285,7 @@ else:
         - Also, we are currently using GPT3.5 in order to have more users, but we are considering upgrading to GPT4 depending on how many people donate.
         - Please click the 👇 button to make a donation. 🙇‍♂️
             """
-        elif select_lang=="JPN":
+        elif st.session_state.language=="JPN":
             about_msg="""
         AI(BrAIn)参加型のマルチチャットです。
         
