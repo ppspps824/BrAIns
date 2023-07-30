@@ -236,6 +236,7 @@ else:
     <div>ハロー</div>
     </header>
     """
+    components.html(content)
     st.image("resource/logo.jpg")
     with st.form("UserInfo"):
         input_name = st.text_input("Name")
