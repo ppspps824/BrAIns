@@ -72,7 +72,7 @@ if st.session_state.name:
         back_to_top()
 
     content = """
-    <a href='#' id='Image 1'><img width="100%" src='https://drive.google.com/uc?id=1_5TDgdI68fhrUes5l31KOBmKt50C4ejp'></a>
+    <a href='#' id='Image 1'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
     """
     clicked = click_detector(content)
     if clicked:
