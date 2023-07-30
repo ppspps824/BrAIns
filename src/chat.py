@@ -225,7 +225,15 @@ if st.session_state.name:
         except:
             with st.chat_message("chatbot", avatar="assistant"):
                 st.error("現在BrAInsを利用できません。")
-                st.experimental_rerun()
+                db.insert_chat_log(
+                    chat_id=st.session_state.chat_id,
+                    name=current_ai_name,
+                    role="assistant",
+                    message="現在BrAInsを利用できません。",
+                    sent_time=datetime.datetime.now(),
+                )
+                break
+    
             
     # Refresh the page every (REFRESH_INTERVAL) seconds
     count = st_autorefresh(
