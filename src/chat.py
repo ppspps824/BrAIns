@@ -63,6 +63,7 @@ def setting_header():
     
     with st.container():
         st.markdown('<div class="floating_right"></div>', unsafe_allow_html=True)
+        st.write("")
         st.button("🚪",on_click=back_to_main)
         if st.button("🤖"):
             switch_page("brains")
