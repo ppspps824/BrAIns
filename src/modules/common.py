@@ -45,7 +45,7 @@ def hide_style():
                     [data-testid="stToolbar"] {visibility: hidden !important;}
                     footer {visibility: hidden !important;}
                     
-                    .userdiv:has( >.element-container div.floating) {
+                    div:has( >.element-container div.floating) {
                         display: flex;
                         flex-direction: column;
                         position: fixed;
