@@ -239,9 +239,9 @@ if st.session_state.name:
         interval=const.REFRESH_INTERVAL, limit=None, key="fizzbuzzcounter"
     )
 else:
-    cols=st.columns(6)
-    st.session_state.language=cols[5].selectbox(" ",options=["ENG","JPN"],label_visibility="collapsed")
-    st.image("resource/logo.jpg")
+    cols=st.columns([6,1])
+    st.session_state.language=cols[1].selectbox(" ",options=["ENG","JPN"],label_visibility="collapsed")
+    cols[0].image("resource/logo.jpg")
     with st.form("UserInfo"):
         input_name = st.text_input("Name",placeholder="Jones")
         input_room_id = st.text_input("Room",placeholder="Jones Film Club")
