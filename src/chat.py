@@ -157,7 +157,7 @@ if st.session_state.name:
             st.write(name + ":\n\n" + user_msg)
 
         messages.append({"role": "user", "content": name + " said " + user_msg})
-        user_msg = user_msg.replace("＠", "@").replace("@", "@")
+        user_msg = user_msg.replace("＠", "@").replace("@ ", "@")
         
         action_list=[]
         if "@" in user_msg:
