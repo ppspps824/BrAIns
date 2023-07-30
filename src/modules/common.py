@@ -49,7 +49,7 @@ def hide_style():
                         display: flex;
                         flex-direction: column;
                         position: fixed;
-                        margin: auto 0 0 0;
+                        margin: 0 0 0 auto;
                     }
                     
                     div.floating_right {
@@ -60,7 +60,6 @@ def hide_style():
                         display: flex;
                         flex-direction: column;
                         position: fixed;
-                        margin: 0 0 0 auto;
                     }
                     
                     div.floating_left {
