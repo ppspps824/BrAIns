@@ -49,6 +49,7 @@ def hide_style():
                         display: flex;
                         flex-direction: column;
                         position: fixed;
+                        text-align: right;
                     }
                     
                     div.floating {
