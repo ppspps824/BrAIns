@@ -231,9 +231,9 @@ if st.session_state.name:
     )
 else:
     content="""
-    <header class="user_header">
+    <div class="user_header">
     <div>ハロー</div>
-    </header>
+    </div>
     """
     st.markdown(content,unsafe_allow_html=True)
     st.image("resource/logo.jpg")
