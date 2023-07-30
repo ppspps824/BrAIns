@@ -254,7 +254,7 @@ else:
             else:
                 st.warning("Enter your name and room name.")
 
-    with st.expander("BrAInsとは"):
+    with st.expander("About BrAIns"):
         select_lang=st.selectbox("Select Language",options=["ENG","JPN"])
         
         if select_lang=="ENG":
