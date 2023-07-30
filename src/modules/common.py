@@ -45,7 +45,7 @@ def hide_style():
                     [data-testid="stToolbar"] {visibility: hidden !important;}
                     footer {visibility: hidden !important;}
                     
-                    .header {
+                    .user_header {
                           background: #fff;
                           display: flex;
                           top: 0;
