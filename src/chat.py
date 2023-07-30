@@ -62,11 +62,14 @@ def setting_header():
         text=f"{st.session_state.chat_id} ：No Members"
     
     with st.container():
-        st.markdown('<div class="floating"></div>', unsafe_allow_html=True)
+        st.markdown('<div class="floating_right"></div>', unsafe_allow_html=True)
         st.button("🚪",on_click=back_to_main)
         if st.button("🤖"):
             switch_page("brains")
-        
+    
+    with st.container():
+        st.markdown('<div class="floating_left"></div>', unsafe_allow_html=True)
+        st.caption(text)
 
 def back_to_main():
     st.session_state.chat_id = ""
