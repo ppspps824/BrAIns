@@ -40,7 +40,7 @@ def hide_style():
                         display: none
                     }
                     .block-container {
-                    padding-top: 2rem;
+                    padding-top: 0rem;
                     }
                     [data-testid="stToolbar"] {visibility: hidden !important;}
                     footer {visibility: hidden !important;}
@@ -49,8 +49,7 @@ def hide_style():
                         display: flex;
                         flex-direction: column;
                         position: fixed;
-                        text-align: right;
-                        padding-top: 0rem;
+                        margin: auto 0 0 0;
                     }
                     
                     div.floating_right {
@@ -61,8 +60,7 @@ def hide_style():
                         display: flex;
                         flex-direction: column;
                         position: fixed;
-                        text-align: left;
-                        padding-top: 0rem;
+                        margin: 0 0 0 auto;
                     }
                     
                     div.floating_left {
