@@ -48,14 +48,15 @@ You are an AI chatbot. Please follow the rules below to interact with us.
 
 
 """
+members = db.get_member(st.session_state.chat_id)
+if members:
+    members = [name[0] for name in members]
+        
+member_names = list(set(members)) + ai_list
+member_names_text = ",".join(member_names)
+
 
 def setting_header():
-    members = db.get_member(st.session_state.chat_id)
-    if members:
-        members = [name[0] for name in members]
-        
-    member_names = list(set(members)) + ai_list
-    member_names_text = ",".join(member_names)
     if member_names_text:
         text=f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}"
     else:
