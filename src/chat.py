@@ -82,7 +82,7 @@ def setting_header():
 }
 </style>
     """
-    compornents.html(css)
+    components.html(css)
     clicked = click_detector(content)
     if clicked=="title":
         switch_page("brains")
