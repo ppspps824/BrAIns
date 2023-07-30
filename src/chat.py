@@ -63,9 +63,26 @@ def setting_header():
         text=f"{st.session_state.chat_id} ：No Members"
     
     content = """
+    <header class="header">
     <a href='#' id='exit'>Exit</a>
     <a href='#' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
+    </header>
     """
+    css="""
+    <style>
+    .header {
+  background: #fff;
+  display: flex;
+  top: 0;
+  height: 100px;
+  padding: 20px;
+  position: fixed;
+  justify-content: space-between;
+  width: 100%;
+}
+</style>
+    """
+    compornents.html(css)
     clicked = click_detector(content)
     if clicked=="title":
         switch_page("brains")
