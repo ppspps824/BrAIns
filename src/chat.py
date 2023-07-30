@@ -283,3 +283,4 @@ else:
         """
         )
         button(username="papasim824C", floating=False, width=221)
+        st.caption("powered by ChatGPT API.")
