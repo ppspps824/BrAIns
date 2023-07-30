@@ -57,10 +57,12 @@ member_names_text = ",".join(member_names)
 
 def setting_header():
     if member_names_text:
-        text=f"{st.session_state.chat_id} / {st.session_state.brains_action} \n@{member_names_text}"
+        room_info=f"{st.session_state.chat_id} / {st.session_state.brains_action}"
+        room_member=f"@{member_names_text}"
     else:
-        text=f"{st.session_state.chat_id} \nNo Members"
-    
+        room_info=f"{st.session_state.chat_id}"
+        room_member="No Members"
+        
     with st.container():
         st.markdown('<div class="floating_right"></div>', unsafe_allow_html=True)
         st.write("")
