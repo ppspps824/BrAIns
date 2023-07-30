@@ -45,17 +45,15 @@ def hide_style():
                     [data-testid="stToolbar"] {visibility: hidden !important;}
                     footer {visibility: hidden !important;}
                     
-                    .user_header {
-                          
-                          display: flex;
-                          top: 0;
-                          height: 100px;
-                          padding: 20px;
-                          position: fixed;
-                          justify-content: space-between;
-                          width: 100%;
-                        }
+                    .userdiv:has( >.element-container div.floating) {
+                        display: flex;
+                        flex-direction: column;
+                        position: fixed;
+                    }
                     
+                    div.floating {
+                        height:0%;
+                    }
                     </style>
                     """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
