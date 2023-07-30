@@ -63,18 +63,12 @@ def setting_header():
     
     content = f"""
     <div class="user_header">
-    <a href='#' id='exit'>Exit</a>
-    <a href='#' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
+    <a href='https://brains.streamlit.app' id='exit'>Exit</a>
+    <a href='https://brains.streamlit.app/brains' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
     <p>{text}</p>
     </div>
     """
     st.markdown(content,unsafe_allow_html=True)
-    clicked = click_detector(content)
-    if clicked=="title":
-        switch_page("brains")
-    elif clicked =="exit":
-        back_to_top()
-
 
 def back_to_top():
     st.session_state.chat_id = ""
