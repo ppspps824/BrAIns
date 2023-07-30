@@ -62,7 +62,7 @@ def setting_header():
         text=f"{st.session_state.chat_id} ：No Members"
     
     content = """
-    <header class="header">
+    <header class="user_header">
     <a href='#' id='exit'>Exit</a>
     <a href='#' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
     </header>
