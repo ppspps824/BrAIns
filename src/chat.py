@@ -63,10 +63,10 @@ def setting_header():
     
     with st.container():
         st.markdown('<div class="floating"></div>', unsafe_allow_html=True)
-        col1,col2,col3=st.columns(3)
+        col1,col2,col3=st.columns([1,8,1])
         
         col1.button("Exit",on_click=back_to_main)
-        col2.image("resource/logo.jpg")
+        
         if col3.button("Config"):
             switch_page("brains")
         
