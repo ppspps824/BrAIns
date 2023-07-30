@@ -239,9 +239,8 @@ if st.session_state.name:
         interval=const.REFRESH_INTERVAL, limit=None, key="fizzbuzzcounter"
     )
 else:
-    with st.container():
-        st.markdown('<div class="floating_right"></div>', unsafe_allow_html=True)
-        st.session_state.language=st.selectbox("Select Language",options=["ENG","JPN"])
+    cols=st.columns(4)
+    st.session_state.language=cols[3].selectbox(" ",options=["ENG","JPN"],label_visibility="collapsed")
     st.image("resource/logo.jpg")
     with st.form("UserInfo"):
         input_name = st.text_input("Name",placeholder="Jones")
