@@ -173,56 +173,60 @@ if st.session_state.name:
         
                 if st.session_state.brains_action == "デフォルト":
                     action_list =random.sample(ai_list, random.randint(1, len(ai_list)))
+        
+        try:
+            if action_list:
+                if st.button("ストップ"):
+                    st.experimental_rerun()
+                    
+            for num, current_ai_name in enumerate(action_list):
+                all_msg = ""
+                ai_info = [info for info in personas if info[1] == current_ai_name][0]
+                current_msg = messages[-1]["content"]
+                current_ai_name = ai_info[1]
+                ai_roles = ai_info[0]
     
-        if action_list:
-            if st.button("ストップ"):
-                st.experimental_rerun()
-                
-        for num, current_ai_name in enumerate(action_list):
-            all_msg = ""
-            ai_info = [info for info in personas if info[1] == current_ai_name][0]
-            current_msg = messages[-1]["content"]
-            current_ai_name = ai_info[1]
-            ai_roles = ai_info[0]
-
-            # Show chatbot message
-            rule = [{"role": "system", "content": base_rueles + "\n" + ai_roles}]
-            messages.append(
-                {"role": "assistant", "content": current_ai_name + " said "}
-            )
-            if len(messages) > const.MAX_CONVERSATION_BUFFER:
-                messages.pop(1)
-            prompt = rule + messages
-            completion = openai.ChatCompletion.create(
-                model=const.MODEL_NAME, messages=prompt, stream=True
-            )
-
+                # Show chatbot message
+                rule = [{"role": "system", "content": base_rueles + "\n" + ai_roles}]
+                messages.append(
+                    {"role": "assistant", "content": current_ai_name + " said "}
+                )
+                if len(messages) > const.MAX_CONVERSATION_BUFFER:
+                    messages.pop(1)
+                prompt = rule + messages
+                completion = openai.ChatCompletion.create(
+                    model=const.MODEL_NAME, messages=prompt, stream=True
+                )
+    
+                with st.chat_message("chatbot", avatar="assistant"):
+                    msg_place = st.empty()
+                    for msg in completion:
+                        assistant_msg = msg["choices"][0]["delta"].get("content", "")
+                        all_msg += assistant_msg
+                        all_msg = all_msg.replace(f"@{current_ai_name}", "")
+                        msg_place.write(current_ai_name + ":\n\n" + all_msg)
+    
+                messages[-1]["content"] += all_msg
+    
+                db.insert_chat_log(
+                    chat_id=st.session_state.chat_id,
+                    name=current_ai_name,
+                    role="assistant",
+                    message=all_msg,
+                    sent_time=datetime.datetime.now(),
+                )
+    
+                # メンションチェック
+                for ai_name in ai_list:
+                    if f"@{ai_name}" in all_msg:
+                        action_list.append(ai_name)
+    
+                st.session_state.current_ai_name = current_ai_name
+        except:
             with st.chat_message("chatbot", avatar="assistant"):
-                msg_place = st.empty()
-                for msg in completion:
-                    assistant_msg = msg["choices"][0]["delta"].get("content", "")
-                    all_msg += assistant_msg
-                    all_msg = all_msg.replace(f"@{current_ai_name}", "")
-                    msg_place.write(current_ai_name + ":\n\n" + all_msg)
-
-            messages[-1]["content"] += all_msg
-
-            db.insert_chat_log(
-                chat_id=st.session_state.chat_id,
-                name=current_ai_name,
-                role="assistant",
-                message=all_msg,
-                sent_time=datetime.datetime.now(),
-            )
-
-            # メンションチェック
-            for ai_name in ai_list:
-                if f"@{ai_name}" in all_msg:
-                    action_list.append(ai_name)
-
-            st.session_state.current_ai_name = current_ai_name
-    
-
+            st.error("現在BrAInsを利用できません。")
+            st.experimental_rerun()
+            
     # Refresh the page every (REFRESH_INTERVAL) seconds
     count = st_autorefresh(
         interval=const.REFRESH_INTERVAL, limit=None, key="fizzbuzzcounter"
