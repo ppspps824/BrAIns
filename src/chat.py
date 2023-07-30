@@ -232,7 +232,6 @@ if st.session_state.name:
                     message="現在BrAInsを利用できません。",
                     sent_time=datetime.datetime.now(),
                 )
-                break
     
             
     # Refresh the page every (REFRESH_INTERVAL) seconds
