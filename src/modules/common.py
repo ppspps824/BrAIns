@@ -46,7 +46,7 @@ def hide_style():
                     footer {visibility: hidden !important;}
                     
                     .user_header {
-                          background: #fff;
+                          
                           display: flex;
                           top: 0;
                           height: 100px;
