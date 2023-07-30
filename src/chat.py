@@ -67,13 +67,13 @@ def setting_header():
     <a href='#' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
     </div>
     """
-    
-    clicked = click_detector(content)
-    if clicked=="title":
-        switch_page("brains")
-    elif clicked =="exit":
-        back_to_top()
-    st.caption(text)
+    st.markdown(content,unsafe_allow_html=True)
+    #clicked = click_detector(content)
+    #if clicked=="title":
+        #switch_page("brains")
+    #elif clicked =="exit":
+        #back_to_top()
+    #st.caption(text)
 
 
 def back_to_top():
