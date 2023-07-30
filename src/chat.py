@@ -68,11 +68,8 @@ else:
     text=f"{st.session_state.chat_id} ：No Members"
 
 if st.session_state.name:
-    if st.button("Exit"):
-        back_to_top()
-
     content = """
-    <dev id='exit'>Exit</dev>
+    <a href='#' id='exit'>Exit</a>
     <a href='#' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
     """
     clicked = click_detector(content)
