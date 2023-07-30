@@ -49,25 +49,18 @@ You are an AI chatbot. Please follow the rules below to interact with us.
 
 """
 
-
-def back_to_top():
-    st.session_state.chat_id = ""
-    st.session_state.name = ""
-    st.experimental_rerun()
-
-
-members = db.get_member(st.session_state.chat_id)
-if members:
-    members = [name[0] for name in members]
+def setting_header():
+    members = db.get_member(st.session_state.chat_id)
+    if members:
+        members = [name[0] for name in members]
+        
+    member_names = list(set(members)) + ai_list
+    member_names_text = ",".join(member_names)
+    if member_names_text:
+        text=f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}"
+    else:
+        text=f"{st.session_state.chat_id} ：No Members"
     
-member_names = list(set(members)) + ai_list
-member_names_text = ",".join(member_names)
-if member_names_text:
-    text=f"{st.session_state.chat_id} / {st.session_state.brains_action} ：@{member_names_text}"
-else:
-    text=f"{st.session_state.chat_id} ：No Members"
-
-if st.session_state.name:
     content = """
     <a href='#' id='exit'>Exit</a>
     <a href='#' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
@@ -78,6 +71,16 @@ if st.session_state.name:
     elif clicked =="exit":
         back_to_top()
     st.caption(text)
+
+
+def back_to_top():
+    st.session_state.chat_id = ""
+    st.session_state.name = ""
+    st.experimental_rerun()
+
+
+if st.session_state.name:
+    setting_header()
     db.insert_member(st.session_state.chat_id, st.session_state.name)
 
     messages = []
