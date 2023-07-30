@@ -20,9 +20,9 @@ common.hide_style()
 if "name" not in st.session_state:
     st.session_state.name = ""
     st.session_state.chat_id = ""
-    st.session_state.brains_action = "デフォルト"
+    st.session_state.brains_action = "Default"
     st.session_state.current_ai_name = ""
-    st.session_state.language="ENG"
+    st.session_state.language = "EN"
 
 
 db = database.Database()
@@ -50,30 +50,28 @@ You are an AI chatbot. Please follow the rules below to interact with us.
 members = db.get_member(st.session_state.chat_id)
 if members:
     members = [name[0] for name in members]
-        
+
 member_names = list(set(members)) + ai_list
 member_names_text = ",".join(member_names)
 
 
 def setting_header():
     if member_names_text:
-        room_info=f"{st.session_state.chat_id} / {st.session_state.brains_action}"
-        room_member=f"@{member_names_text}"
+        room_info = f"{st.session_state.chat_id} / {st.session_state.brains_action}"
+        room_member = f"@{member_names_text}"
     else:
-        room_info=f"{st.session_state.chat_id}"
-        room_member="No Members"
-        
+        room_info = f"{st.session_state.chat_id}"
+        room_member = "No Members"
+
     with st.container():
-        st.markdown('<div class="floating_right"></div>', unsafe_allow_html=True)
-        st.write("")
-        st.button("🚪",on_click=back_to_main)
-        if st.button("🤖"):
+        cols = st.columns([10, 1, 1])
+        cols[2].button("🚪", on_click=back_to_main)
+        if cols[1].button("🤖"):
             switch_page("brains")
-    
-    with st.container():
-        st.markdown('<div class="floating_left"></div>', unsafe_allow_html=True)
         st.caption(room_info)
         st.caption(room_member)
+        st.markdown('<div class="floating_right"></div>', unsafe_allow_html=True)
+
 
 def back_to_main():
     st.session_state.chat_id = ""
@@ -88,11 +86,6 @@ if st.session_state.name:
     # Get chatbot settings
     openai_api_key = st.secrets["OPENAI_API_KEY"]
     openai.api_key = openai_api_key
-    if openai_api_key is None:
-        personas = None
-        st.error(
-            "OPENAI_API_KEY is not set in the environment variables. Please contact the administrator."
-        )
 
     user_infos = {}
     name = st.session_state.name
@@ -141,7 +134,7 @@ if st.session_state.name:
 
     # Show user message
     if user_msg:
-        if user_msg == "オールクリア":
+        if user_msg in ["All Clear", "オールクリア"]:
             db.delete_all_chat_logs(st.session_state.chat_id)
             st.experimental_rerun()
         # Show new chat message
@@ -158,8 +151,8 @@ if st.session_state.name:
 
         messages.append({"role": "user", "content": name + " said " + user_msg})
         user_msg = user_msg.replace("＠", "@").replace("@ ", "@")
-        
-        action_list=[]
+
+        action_list = []
         if "@" in user_msg:
             if "@all" in user_msg:
                 action_list = ai_list.copy()
@@ -167,25 +160,27 @@ if st.session_state.name:
                 action_list = [info for info in ai_list if f"@{info}" in user_msg]
         else:
             if len(ai_list):
-                if st.session_state.brains_action == "キープ":
+                if st.session_state.brains_action in ["Keep", "キープ"]:
                     if st.session_state.current_ai_name:
-                        action_list=[st.session_state.current_ai_name]
-        
-                if st.session_state.brains_action == "デフォルト":
-                    action_list =random.sample(ai_list, random.randint(1, len(ai_list)))
-        
+                        action_list = [st.session_state.current_ai_name]
+
+                if st.session_state.brains_action in ["Default", "デフォルト"]:
+                    action_list = random.sample(
+                        ai_list, random.randint(1, len(ai_list))
+                    )
+
         try:
             if action_list:
-                if st.button("ストップ"):
+                if st.button("Stop" if st.session_state.language == "EN" else "ストップ"):
                     st.experimental_rerun()
-                    
+
             for num, current_ai_name in enumerate(action_list):
                 all_msg = ""
                 ai_info = [info for info in personas if info[1] == current_ai_name][0]
                 current_msg = messages[-1]["content"]
                 current_ai_name = ai_info[1]
                 ai_roles = ai_info[0]
-    
+
                 # Show chatbot message
                 rule = [{"role": "system", "content": base_rueles + "\n" + ai_roles}]
                 messages.append(
@@ -197,7 +192,7 @@ if st.session_state.name:
                 completion = openai.ChatCompletion.create(
                     model=const.MODEL_NAME, messages=prompt, stream=True
                 )
-    
+
                 with st.chat_message("chatbot", avatar="assistant"):
                     msg_place = st.empty()
                     for msg in completion:
@@ -205,9 +200,9 @@ if st.session_state.name:
                         all_msg += assistant_msg
                         all_msg = all_msg.replace(f"@{current_ai_name}", "")
                         msg_place.write(current_ai_name + ":\n\n" + all_msg)
-    
+
                 messages[-1]["content"] += all_msg
-    
+
                 db.insert_chat_log(
                     chat_id=st.session_state.chat_id,
                     name=current_ai_name,
@@ -215,36 +210,49 @@ if st.session_state.name:
                     message=all_msg,
                     sent_time=datetime.datetime.now(),
                 )
-    
+
                 # メンションチェック
                 for ai_name in ai_list:
                     if f"@{ai_name}" in all_msg:
                         action_list.append(ai_name)
-    
+
                 st.session_state.current_ai_name = current_ai_name
         except:
             with st.chat_message("chatbot", avatar="assistant"):
-                st.error("現在BrAInsを利用できません。")
+                api_error_msg = (
+                    "BrAIns currently unavailable."
+                    if st.session_state.language == "EN"
+                    else "現在BrAInsを利用できません。"
+                )
+                st.error(api_error_msg)
                 db.insert_chat_log(
                     chat_id=st.session_state.chat_id,
                     name=current_ai_name,
                     role="assistant",
-                    message="現在BrAInsを利用できません。",
+                    message=api_error_msg,
                     sent_time=datetime.datetime.now(),
                 )
-    
-            
+
     # Refresh the page every (REFRESH_INTERVAL) seconds
     count = st_autorefresh(
         interval=const.REFRESH_INTERVAL, limit=None, key="fizzbuzzcounter"
     )
 else:
-    cols=st.columns([6,1])
-    st.session_state.language=cols[1].selectbox(" ",options=["EN","JP"],label_visibility="collapsed")
+    cols = st.columns([6, 1])
+    st.session_state.language = cols[1].selectbox(
+        " ", options=["EN", "JP"], label_visibility="collapsed"
+    )
     cols[0].image("resource/logo.jpg")
     with st.form("UserInfo"):
-        input_name = st.text_input("Name",placeholder="Jones")
-        input_room_id = st.text_input("Room",placeholder="Jones Film Club")
+        input_name = st.text_input(
+            "Name", placeholder="Jones" if st.session_state.language == "EN" else "さとう"
+        )
+        input_room_id = st.text_input(
+            "Room",
+            placeholder="Jones Film Club"
+            if st.session_state.language == "EN"
+            else "映画同好会0101",
+        )
 
         if st.form_submit_button("Join"):
             st.session_state.chat_id = input_room_id
@@ -257,9 +265,11 @@ else:
             else:
                 st.warning("Enter your name and room name.")
 
-    with st.expander("About BrAIns"):
-        if st.session_state.language=="EN":
-            about_msg="""
+    with st.expander(
+        "About BrAIns" if st.session_state.language == "EN" else "BrAInsとは"
+    ):
+        if st.session_state.language == "EN":
+            about_msg = """
             AI(BrAIn)-participating multi-chat.
 
         ### How to start
@@ -284,8 +294,8 @@ else:
         - Also, we are currently using GPT3.5 in order to have more users, but we are considering upgrading to GPT4 depending on how many people donate.
         - Please click the 👇 button to make a donation. 🙇‍♂️
             """
-        elif st.session_state.language=="JP":
-            about_msg="""
+        elif st.session_state.language == "JP":
+            about_msg = """
         AI(BrAIn)参加型のマルチチャットです。
         
         ### 開始方法
@@ -310,7 +320,7 @@ else:
         - また、現在は多くの方にご利用いただくためにGPT3.5を利用していますが、寄付の状況を見てGPT4へのグレードアップも検討しております。
         - 是非👇のボタンより寄付をお願いいたます🙇‍♂️
         """
-        
+
         st.write(about_msg)
         button(username="papasim824C", floating=False, width=221)
         st.caption("powered by ChatGPT API.")

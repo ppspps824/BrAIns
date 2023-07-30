@@ -1,6 +1,7 @@
 resource/user_images/*
 database.db
 .vscode
+.venv
 memo.txt
 .DS_Store
 secrets.toml

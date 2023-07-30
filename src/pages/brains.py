@@ -14,13 +14,26 @@ db = database.Database()
 
 
 def create_random_brains():
-    prompt = [
-        {
-            "role": "system",
-            "content": """
-Please create 2-3 personas in the same format as the sample below.
-Please do not explain the contents, etc., and output only the generated product.
-- sample
+    sample = (
+        """
+[
+    [
+      "Bob",.
+      "Gender: male Age: 40s Occupation: businessman Hobbies: watching movies, traveling, cooking Characteristics: sociable and friendly personality"
+    ],
+    [
+      "Karen",
+      "Gender: female Age: 30s Occupation: freelance illustrator Hobbies: drawing, listening to music, visiting cafes Characteristics: I have a cheerful and sociable personality and love talking to people. My topics of conversation are wide-ranging and I am well versed in the latest movies, music, travel episodes, etc. I am also passionate about my paintings. I am also sometimes enthusiastic about my paintings."
+    ]
+    [
+      "Takuya",.
+      "Gender: male Age: 50s Occupation: part-time driver Hobbies: car maintenance, fishing, photography Characteristics: quiet and reserved, but good at people-watching and can be funny about things he notices. I am especially knowledgeable about cars and can talk enthusiastically about the latest car trends and customizations."
+    ]
+  ]
+
+"""
+        if st.session_state.language == "EN"
+        else """
 [
     [
       "ボブ",
@@ -36,86 +49,131 @@ Please do not explain the contents, etc., and output only the generated product.
     ]
   ]
     
+"""
+    )
+
+    prompt = [
+        {
+            "role": "system",
+            "content": f"""
+Please create 2-3 personas in the same format as the sample below.
+Please do not explain the contents, etc., and output only the generated product.
+- sample
+{sample}
 """,
         }
     ]
     count = 0
-    if st.button("中止"):
+    if st.button("Stop" if st.session_state.language == "EN" else "中止"):
         st.stop()
-    while True:
-        with st.spinner(f"生成中:{count+1}回目"):
+
+    correct = False
+    for count in range(3):
+        with st.spinner(f"Generating...:{count+1}"):
             result = openai.ChatCompletion.create(
                 model=const.MODEL_NAME,
                 messages=prompt,
             )
-            count += 1
             try:
                 gen_ai_set = json.loads(result["choices"][0]["message"]["content"])
+                correct = True
                 break
             except:
                 continue
+    if not correct:
+        st.write("Please Retry😢")
 
     return gen_ai_set
+
 
 st.write("")
 if st.button("Back to Chat"):
     switch_page("chat")
 
 with st.expander("Config"):
-    st.session_state.brains_action=st.selectbox("応答方法を選択",options=["デフォルト","キープ","メンション"],help="いずれのモードでもメンションで指定が可能")
-    
-    if st.session_state.brains_action=="メンション":
-        st.write("「@名前」で個別、複数指定。「@all」で全員が応答。")
-    elif st.session_state.brains_action=="キープ":
-        st.write("直近に発言したbrAInが応答する。")
-    elif st.session_state.brains_action=="デフォルト":
-        st.write("ランダムにbrAInが応答する。")
-    
-    
+    if st.session_state.language == "EN":
+        brains_action_options = ["Default", "Keep", "Mention"]
+        brains_action_label = "Response"
+        brains_action_help = "Mentions can be used in either mode."
+        brains_action_mention = (
+            'Individual and multiple designations by "@name". All respond with "@all".'
+        )
+        brains_action_keep = "The most recent BrAIn to speak responds."
+        brains_action_random = "BrAIns respond randomly."
+
+    elif st.session_state.language == "JP":
+        brains_action_options = ["デフォルト", "キープ", "メンション"]
+        brains_action_label = "応答方法"
+        brains_action_help = "いずれのモードでもメンションの利用が可能です。"
+        brains_action_mention = "「@名前」で個別、複数指定。「@all」で全員が応答します。"
+        brains_action_keep = "直近に発言したBrAInが応答します。"
+        brains_action_random = "BrAIn達がランダムに応答します。"
+
+    st.session_state.brains_action = st.selectbox(
+        brains_action_label, options=brains_action_options, help=brains_action_help
+    )
+
+    if st.session_state.brains_action in ["Mention", "メンション"]:
+        st.write(brains_action_mention)
+    elif st.session_state.brains_action in ["Keep", "キープ"]:
+        st.write(brains_action_keep)
+    elif st.session_state.brains_action in ["Default", "デフォルト"]:
+        st.write(brains_action_random)
+
     with open("src/pages/brains_info.json", "r", encoding="utf-8") as f:
         brains_info = json.loads(f.read())
-    
+
     st.write("---")
-    brains_options = list(brains_info.keys())
-    preset = st.selectbox("プリセットを選ぶ", options=brains_options)
-    
-    if preset != "指定なし":
-        if preset == "ランダム生成":
+    brains_options = list(brains_info[st.session_state.language].keys())
+    preset = st.selectbox("Presets", options=brains_options)
+
+    if preset not in ["Nothing", "指定なし"]:
+        if preset in ["Generating", "ランダム生成"]:
             ai_set = create_random_brains()
         else:
-            ai_set = brains_info[preset]
-    
+            ai_set = brains_info[st.session_state.language][preset]
+
         db.reset_character_persona(st.session_state.chat_id)
-    
+
         for persona_name, discription in ai_set:
-            db.update_character_persona(st.session_state.chat_id, persona_name, discription)
-    
-    
+            db.update_character_persona(
+                st.session_state.chat_id, persona_name, discription
+            )
+
     st.write("---")
-    st.write("BrAInを追加・更新、削除")
+    st.write(
+        "Add, update, or remove BrAIn."
+        if st.session_state.language == "EN"
+        else "BrAInを追加・更新、削除"
+    )
     persona_name = st.text_input(
-            label="名前",
-        )
+        label="Name" if st.session_state.language == "EN" else "名前",
+    )
     discription = st.text_area(
-            label="役割",
-        )
-    if st.button("追加・更新"):
-            # Set persona
+        label="Role" if st.session_state.language == "EN" else "役割",
+    )
+    if st.button("Add or Update"):
+        # Set persona
         db.update_character_persona(st.session_state.chat_id, persona_name, discription)
         st.experimental_rerun()
-    if st.button("削除"):
+    if st.button("Delete"):
         db.delete_character_persona(st.session_state.chat_id, persona_name)
         st.experimental_rerun()
-    
+
 st.write("## BrAIns")
 personas = db.get_character_personas(st.session_state.chat_id)
 ai_list = "\n".join(f"|{info[1]}|{info[0]}|" for info in personas)
 st.write(
     f"""\n
+|Name|Role|
+|---|---|
+{ai_list}
+"""
+    if st.session_state.language == "EN"
+    else f"""\n
 |名前|役割|
 |---|---|
 {ai_list}
 """
 )
 st.write("")
-
