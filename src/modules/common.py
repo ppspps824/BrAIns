@@ -50,6 +50,7 @@ def hide_style():
                         flex-direction: column;
                         position: fixed;
                         text-align: right;
+                        padding-top: 0rem;
                     }
                     
                     div.floating_right {
@@ -61,6 +62,7 @@ def hide_style():
                         flex-direction: column;
                         position: fixed;
                         text-align: left;
+                        padding-top: 0rem;
                     }
                     
                     div.floating_left {
