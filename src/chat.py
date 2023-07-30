@@ -72,7 +72,8 @@ def setting_header():
     
     with st.container():
         st.markdown('<div class="floating_left"></div>', unsafe_allow_html=True)
-        st.caption(text)
+        st.caption(room_info)
+        st.caption(room_member)
 
 def back_to_main():
     st.session_state.chat_id = ""
