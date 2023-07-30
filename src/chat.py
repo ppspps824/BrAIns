@@ -240,7 +240,7 @@ if st.session_state.name:
     )
 else:
     cols=st.columns([6,1])
-    st.session_state.language=cols[1].selectbox(" ",options=["ENG","JPN"],label_visibility="collapsed")
+    st.session_state.language=cols[1].selectbox(" ",options=["EN","JP"],label_visibility="collapsed")
     cols[0].image("resource/logo.jpg")
     with st.form("UserInfo"):
         input_name = st.text_input("Name",placeholder="Jones")
@@ -258,7 +258,7 @@ else:
                 st.warning("Enter your name and room name.")
 
     with st.expander("About BrAIns"):
-        if st.session_state.language=="ENG":
+        if st.session_state.language=="EN":
             about_msg="""
             AI(BrAIn)-participating multi-chat.
 
@@ -284,7 +284,7 @@ else:
         - Also, we are currently using GPT3.5 in order to have more users, but we are considering upgrading to GPT4 depending on how many people donate.
         - Please click the 👇 button to make a donation. 🙇‍♂️
             """
-        elif st.session_state.language=="JPN":
+        elif st.session_state.language=="JP":
             about_msg="""
         AI(BrAIn)参加型のマルチチャットです。
         
