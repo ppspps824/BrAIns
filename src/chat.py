@@ -67,7 +67,7 @@ def setting_header():
         
         col1.button("<",on_click=back_to_main)
         
-        if col3.button("Config"):
+        if col3.button("🤖"):
             switch_page("brains")
         
 
