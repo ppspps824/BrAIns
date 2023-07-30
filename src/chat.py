@@ -63,12 +63,13 @@ def setting_header():
     
     with st.container():
         st.markdown('<div class="floating"></div>', unsafe_allow_html=True)
-        st.button("Exit",on_click=back_to_main)
-        st.button("Config",on_click=show_config)
+        col1,col2,col3=st.columns(3)
         
-
-def show_config():
-    switch_page("brains")
+        col1.button("Exit",on_click=back_to_main)
+        col2.image("resource/logo.jpg")
+        if col3.button("Config"):
+            switch_page("brains")
+        
 
 def back_to_main():
     st.session_state.chat_id = ""
