@@ -243,6 +243,8 @@ else:
         " ", options=["EN", "JP"], label_visibility="collapsed"
     )
     cols[0].image("resource/logo.jpg")
+    room_num = db.get_room_num()
+    cols[1].caption(f"Number of Rooms :{room_num[0]}")
     with st.form("UserInfo"):
         input_name = st.text_input(
             "Name", placeholder="Jones" if st.session_state.language == "EN" else "さとう"

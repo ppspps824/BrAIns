@@ -154,3 +154,12 @@ class Database:
             with AutoCloseCursur(conn) as cur:
                 cur.execute("DELETE FROM chat_logs where chat_id=?;", (chat_id,))
             conn.commit()
+
+    def get_room_num(self):
+        with sqlite3.connect(self.db_path) as conn:
+            with AutoCloseCursur(conn) as cur:
+                cur.execute(
+                    "SELECT COUNT(*) AS chat_count FROM chat_logs GROUP BY chat_id;"
+                )
+                ret_row = cur.fetchone()
+        return ret_row
