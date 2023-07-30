@@ -72,11 +72,14 @@ if st.session_state.name:
         back_to_top()
 
     content = """
-    <a href='#' id='Image 1'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
+    <dev id='exit'>Exit</dev>
+    <a href='#' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
     """
     clicked = click_detector(content)
-    if clicked:
+    if clicked=="title":
         switch_page("brains")
+    elif clicked =="exit":
+        back_to_top()
     st.caption(text)
     db.insert_member(st.session_state.chat_id, st.session_state.name)
 
