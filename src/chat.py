@@ -62,12 +62,12 @@ def setting_header():
         text=f"{st.session_state.chat_id} ：No Members"
     
     content = """
-    <header class="user_header">
+    <div class="user_header">
     <a href='#' id='exit'>Exit</a>
     <a href='#' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
-    </header>
+    </div>
     """
-
+    
     clicked = click_detector(content)
     if clicked=="title":
         switch_page("brains")
@@ -230,12 +230,6 @@ if st.session_state.name:
         interval=const.REFRESH_INTERVAL, limit=None, key="fizzbuzzcounter"
     )
 else:
-    content="""
-    <div class="user_header">
-    <div>ハロー</div>
-    </div>
-    """
-    st.markdown(content,unsafe_allow_html=True)
     st.image("resource/logo.jpg")
     with st.form("UserInfo"):
         input_name = st.text_input("Name")
