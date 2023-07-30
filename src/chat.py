@@ -61,16 +61,16 @@ def setting_header():
     else:
         text=f"{st.session_state.chat_id} ：No Members"
     
-    content = f"""
-    <div class="user_header">
-    <a href='https://brains.streamlit.app' id='exit' target=”_self”>Exit</a>
-    <a href='./brains' id='title' target=”_self”><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
-    <p>{text}</p>
-    </div>
-    """
-    st.markdown(content,unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<div class="floating"></div>', unsafe_allow_html=True)
+        st.button("Exit",on_click=back_to_main)
+        st.button("Config",on_click=show_config)
+        
 
-def back_to_top():
+def show_config():
+    switch_page("brains")
+
+def back_to_main():
     st.session_state.chat_id = ""
     st.session_state.name = ""
     st.experimental_rerun()
