@@ -71,7 +71,6 @@ def setting_header():
 def back_to_main():
     st.session_state.chat_id = ""
     st.session_state.name = ""
-    st.experimental_rerun()
 
 
 if st.session_state.name:
