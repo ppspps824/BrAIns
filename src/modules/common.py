@@ -47,9 +47,9 @@ def hide_style():
                     
                     div:has( >.element-container div.floating_right) {
                         display: flex;
+                        align-items: flex-end;
                         flex-direction: column;
                         position: fixed;
-                        align-items: flex-end;
                     }
                     
                     div.floating_right {
