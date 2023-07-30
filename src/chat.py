@@ -63,8 +63,8 @@ def setting_header():
     
     content = f"""
     <div class="user_header">
-    <a href='https://brains.streamlit.app' id='exit'>Exit</a>
-    <a href='https://brains.streamlit.app/brains' id='title'><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
+    <a href='https://brains.streamlit.app' id='exit' target=”_self”>Exit</a>
+    <a href='https://brains.streamlit.app/brains' id='title' target=”_self”><img width="100%" src='https://drive.google.com/uc?id=1b4KTrfIzuLOHdLmmVxa9JRIZ1JaZJMgf'></a>
     <p>{text}</p>
     </div>
     """
