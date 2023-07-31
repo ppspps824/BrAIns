@@ -162,4 +162,4 @@ class Database:
                     "SELECT COUNT(*) AS chat_count FROM chat_logs GROUP BY chat_id;"
                 )
                 ret_row = cur.fetchone()
-        return ret_row
+        return ret_row if ret_row else [0]
