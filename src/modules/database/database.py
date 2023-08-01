@@ -3,8 +3,6 @@ import sqlite3
 
 import streamlit as st
 
-import const
-
 
 class AutoCloseCursur(sqlite3.Cursor):
     # Auto close cursor
@@ -27,7 +25,7 @@ def dict_factory(cursor, row):
 
 
 class Database:
-    def __init__(self, db_path: str = const.DATABSE_PATH):
+    def __init__(self, db_path: str = "resource/database.db"):
         self.db_path = db_path
         with sqlite3.connect(db_path) as conn:
             with AutoCloseCursur(conn) as cur:

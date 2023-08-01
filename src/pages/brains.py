@@ -1,11 +1,9 @@
-import datetime
 import json
 
 import openai
 import streamlit as st
 from streamlit_extras.switch_page_button import switch_page
 
-import const
 from modules import common
 from modules.database import database
 
@@ -71,7 +69,7 @@ Please do not explain the contents, etc., and output only the generated product.
     for count in range(3):
         with st.spinner(f"Generating...:{count+1}"):
             result = openai.ChatCompletion.create(
-                model=const.MODEL_NAME,
+                model="gpt-3.5-turbo",
                 messages=prompt,
             )
             try:
