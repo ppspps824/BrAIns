@@ -244,7 +244,7 @@ else:
     )
     cols[0].image("resource/logo.jpg")
     room_num = db.get_room_num()
-    cols[1].caption(f"Number of Rooms :{room_num[0]}")
+    cols[1].caption(f"Number of Rooms :{room_num}")
     with st.form("UserInfo"):
         input_name = st.text_input(
             "Name", placeholder="Jones" if st.session_state.language == "EN" else "さとう"

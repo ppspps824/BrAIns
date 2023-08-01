@@ -159,7 +159,7 @@ class Database:
         with sqlite3.connect(self.db_path) as conn:
             with AutoCloseCursur(conn) as cur:
                 cur.execute(
-                    "SELECT COUNT(*) AS chat_count FROM chat_logs GROUP BY chat_id;"
+                    "SELECT COUNT(DISTINCT chat_id) AS unique_chat_ids_count FROM chat_logs;"
                 )
                 ret_row = cur.fetchone()
-        return ret_row if ret_row else [0]
+        return ret_row[0] if ret_row else [0]
