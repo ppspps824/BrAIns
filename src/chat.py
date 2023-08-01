@@ -74,11 +74,11 @@ class Brains:
 
     def visualizer(self, text: str):
         try:
-            geaph_text=text.replace("graphviz","").replace("diagraph","graph")
+            graph_text=text.replace("graphviz","").replace("diagraph","graph")
             digraph_start = graph_text.find("```") + 4
             if digraph_start:
-                digraph_end = geaph_text.rfind("```") - 1
-                digraph_text = geaph_text[digraph_start:digraph_end]
+                digraph_end = graph_text.rfind("```") - 1
+                digraph_text = graph_text[digraph_start:digraph_end]
                 st.write(digraph_text)
                 st.graphviz_chart(digraph_text)
         except:
