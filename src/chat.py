@@ -84,8 +84,11 @@ class Brains:
         try:
             if all(["https" in text,"youtube" in text]):
                 url_start=text.find("https")
-                url_end=text[url_start:].find(" ")+1
-                url=text[url_start:url_end]
+                url_end=text[url_start:].find(" ")
+                if url_end:
+                    url=text[url_start:url_end]
+                else:
+                    url=text[url_start:]
                 st.write(url)
                 st.video(url)
         except:
