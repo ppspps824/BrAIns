@@ -81,6 +81,16 @@ class Brains:
                 st.graphviz_chart(digraph_text)
         except:
             pass
+        try:
+            if all(["https" in text","youtube" in text):
+                url_start=text.find("https")
+                url_end=text[url_start:].find(" ")
+                url=text[url_start:url_end]
+                st.video(url)
+        except:
+            pass
+            
+        
 
     def setting_header(self):
         if self.member_names_text:
