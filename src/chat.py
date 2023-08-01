@@ -74,28 +74,30 @@ class Brains:
 
     def visualizer(self, text: str):
         try:
-            digraph_start = text.replace("graphviz","").replace("diagraph","graph").find("```") + 4
+            geaph_text=text.replace("graphviz","").replace("diagraph","graph")
+            digraph_start = graph_text.find("```") + 4
             if digraph_start:
-                digraph_end = text.rfind("```") - 1
-                digraph_text = text[digraph_start:digraph_end]
+                digraph_end = geaph_text.rfind("```") - 1
+                digraph_text = geaph_text[digraph_start:digraph_end]
                 st.write(digraph_text)
                 st.graphviz_chart(digraph_text)
         except:
             pass
         try:
-            if all(["https" in text,"youtu" in text]):
-                url_start=text.find("https")
-                url_end=text[url_start:].find(" ")
-                if url_end>0:
-                    url=text[url_start:url_end]
+            if "http" in text:
+                if "youtu" in text:
+                    url_start=text.find("https")
+                    url_end=text[url_start:].find(" ")
+                    if url_end>0:
+                        url=text[url_start:url_end]
+                    else:
+                        url=text[url_start:]
+                    st.video(url)
                 else:
-                    url=text[url_start:]
-                st.video(url)
+                    st.image(url)
         except:
             pass
             
-        
-
     def setting_header(self):
         if self.member_names_text:
             room_info = f"{st.session_state.chat_id} / {st.session_state.brains_action}"
