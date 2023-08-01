@@ -291,7 +291,7 @@ class Brains:
             )
 
             if st.form_submit_button("Join"):
-                if all([input_name==st.secrets["admin_id"],input_room_id==["admin_pass"]]):
+                if input_room_id==["admin_pass"]:
                     self.admin()
                 else:
                     st.session_state.chat_id = input_room_id
