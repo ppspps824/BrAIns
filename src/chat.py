@@ -291,7 +291,6 @@ class Brains:
             )
 
             if st.form_submit_button("Join"):
-                st.write(input_room_id)
                 if all(
                     [
                         input_name == st.secrets["admin_id"],
