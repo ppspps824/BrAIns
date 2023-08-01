@@ -291,6 +291,7 @@ class Brains:
             )
 
             if st.form_submit_button("Join"):
+                st.write(input_room_id)
                 if input_room_id==["admin_pass"]:
                     self.admin()
                 else:
