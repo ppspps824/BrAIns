@@ -70,7 +70,7 @@ class Brains:
         sql = st.text_input("sql")
         if sql:
             result = self.db_instance.run_query(sql)
-            st.write(result)
+            st.dataframe(result)
 
     def visualizer(self, text: str):
         try:
