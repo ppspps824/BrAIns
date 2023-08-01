@@ -89,7 +89,6 @@ class Brains:
                     url=text[url_start:url_end]
                 else:
                     url=text[url_start:]
-                st.write(url)
                 st.video(url)
         except:
             pass
