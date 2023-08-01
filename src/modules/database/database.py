@@ -161,13 +161,10 @@ class Database:
                 )
                 ret_row = cur.fetchone()
         return ret_row[0] if ret_row else [0]
-    
-    def run_query(query):
+
+    def run_query(self, query):
         with sqlite3.connect(self.db_path) as conn:
             with AutoCloseCursur(conn) as cur:
-                cur.execute(
-                    query
-                )
+                cur.execute(query)
                 ret_row = cur.fetchall()
         return ret_row
-    

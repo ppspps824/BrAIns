@@ -65,13 +65,13 @@ class Brains:
             self.chat_room()
         else:
             self.front_page()
-            
+
     def admin(self):
-        sql=st.text_input("sql")
+        sql = st.text_input("sql")
         if sql:
-            result=self.db.run_query(sql)
+            result = self.db_instance.run_query(sql)
             st.write(result)
-        
+
     def visualizer(self, text: str):
         try:
             digraph_start = text.find("```") + 4
@@ -292,7 +292,12 @@ class Brains:
 
             if st.form_submit_button("Join"):
                 st.write(input_room_id)
-                if input_room_id==["admin_pass"]:
+                if all(
+                    [
+                        input_name == st.secrets["admin_id"],
+                        input_room_id == st.secrets["admin_pass"],
+                    ]
+                ):
                     self.admin()
                 else:
                     st.session_state.chat_id = input_room_id
