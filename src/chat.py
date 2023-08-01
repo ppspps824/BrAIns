@@ -86,7 +86,7 @@ class Brains:
                 url_start=text.find("https")
                 url_end=text[url_start:].find(" ")
                 url=text[url_start:url_end]
-                sr.write(url)
+                st.write(url)
                 st.video(url)
         except:
             pass
