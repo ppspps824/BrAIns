@@ -82,7 +82,7 @@ class Brains:
         except:
             pass
         try:
-            if all(["https" in text,"youtube" in text]):
+            if all(["https" in text,"youtu" in text]):
                 url_start=text.find("https")
                 url_end=text[url_start:].find(" ")
                 if url_end>0:
