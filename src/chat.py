@@ -66,12 +66,11 @@ class Brains:
         else:
             self.front_page()
             
-    def check_admin(self,input_name,input_room_id):
-        if all([input_name==st.secrets["admin_id"],input_room_id==["admin_pass"]]):
-            sql=st.text_input("sql")
-            if sql:
-                result=self.db.run_query(sql)
-                st.write(result)
+    def admin(self):
+        sql=st.text_input("sql")
+        if sql:
+            result=self.db.run_query(sql)
+            st.write(result)
         
     def visualizer(self, text: str):
         try:
@@ -292,7 +291,7 @@ class Brains:
             )
 
             if st.form_submit_button("Join"):
-                if not self.check_admin(input_name,input_room_id):
+                if not all([input_name==st.secrets["admin_id"],input_room_id==["admin_pass"]]):
                     st.session_state.chat_id = input_room_id
                     if all([input_name, input_room_id]):
                         if input_name not in self.member_names:
