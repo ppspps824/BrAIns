@@ -74,7 +74,7 @@ class Brains:
 
     def visualizer(self, text: str):
         try:
-            digraph_start = text.find("```") + 4
+            digraph_start = text.replace("graphviz","").replace("diagraph","graph").find("```") + 4
             if digraph_start:
                 digraph_end = text.rfind("```") - 1
                 digraph_text = text[digraph_start:digraph_end]
