@@ -79,7 +79,6 @@ class Brains:
             if digraph_start:
                 digraph_end = graph_text.rfind("```") - 1
                 digraph_text = graph_text[digraph_start:digraph_end]
-                st.write(digraph_text)
                 st.graphviz_chart(digraph_text)
         except:
             pass
