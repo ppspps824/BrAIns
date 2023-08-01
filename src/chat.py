@@ -42,6 +42,8 @@ class Brains:
         - Act according to your assigned role.
         - Do not duplicate other assistants comments, including those of others.
         - Identify the roles of other assistants and seek input from appropriate assistants.
+        - Actively use figures and graphs as well as text
+        - When generating figures and graphs, output them in graphviz format.
         - Mentions should be "@name".
         - Do not send mentions to yourself.
 
@@ -63,6 +65,16 @@ class Brains:
             self.chat_room()
         else:
             self.front_page()
+
+    def visualizer(self, text: str):
+        try:
+            digraph_start = text.find("```") + 4
+            if digraph_start:
+                digraph_end = text.rfind("```") - 1
+                digraph_text = text[digraph_start:digraph_end]
+                st.graphviz_chart(digraph_text)
+        except:
+            pass
 
     def setting_header(self):
         if self.member_names_text:
@@ -120,6 +132,9 @@ class Brains:
                 avater = None
             with st.chat_message(log_name, avatar=avater):
                 st.write(log_name + ":\n\n" + log_message)
+
+                # 可視化チェック
+                self.visualizer(log_message)
 
             if self.personas is not None:
                 if log_role == "assistant":
