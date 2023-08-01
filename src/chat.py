@@ -66,7 +66,7 @@ class Brains:
         else:
             self.front_page()
             
-    def check_admin(input_name,input_room_id):
+    def check_admin(self,input_name,input_room_id):
         if all([input_name==st.secrets["admin_id"],input_room_id==["admin_pass"]]):
             sql=st.text_input("sql")
             if sql:
