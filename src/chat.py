@@ -1,5 +1,7 @@
 import datetime
 import random
+import sys
+import traceback
 
 import openai
 import streamlit as st
@@ -21,50 +23,28 @@ class Brains:
 
         # Update the use_chatbot setting
         if "name" not in st.session_state:
+            print("session_state init")
             st.session_state.name = ""
             st.session_state.chat_id = ""
             st.session_state.brains_action = "Default"
             st.session_state.current_ai_name = ""
             st.session_state.language = "EN"
+            st.session_state.personas = []
+            st.session_state.ai_list = []
+            st.session_state.assistants = ""
+            st.session_state.base_rueles = ""
 
         self.db_instance = database.Database(st.session_state.chat_id)
-        self.personas = self.db_instance.get_character_personas(
-            st.session_state.chat_id
-        )
-        if self.personas:
-            self.ai_list = [info["name"] for info in self.personas]
-            self.assistants = "- " + "\n- ".join(
-                [
-                    f'Name:{info["name"]},Role:{info["persona"]}'
-                    for info in self.personas
-                ]
-            )
-        else:
-            self.ai_list = []
-            self.assistants = ""
 
-        self.base_rueles = f"""
-        You are an AI chatbot. Please follow the rules below to interact with us.
-        ## Rules
-        - Act according to your assigned role.
-        - Do not duplicate other assistants comments, including those of others.
-        - Identify the roles of other assistants and seek input from appropriate assistants.
-        - Actively use figures and graphs as well as text
-        - When generating figures and graphs, output them in graphviz format.
-        - Mentions should be "@name".
-        - Do not send mentions to yourself.
+        self.member_names = []
+        self.member_names_text = ""
 
-        ## List of Assistants
-        {self.assistants}
-        ## Role
-
-
-        """
+    def get_members(self):
         members = self.db_instance.get_member(st.session_state.chat_id)
         if members:
             members = [name["name"] for name in members]
 
-        self.member_names = list(set(members)) + self.ai_list
+        self.member_names = list(set(members)) + st.session_state.ai_list
         self.member_names_text = ",".join(self.member_names)
 
     def handler(self):
@@ -120,6 +100,7 @@ class Brains:
         st.session_state.name = ""
 
     def chat_room(self):
+        self.get_members()
         self.setting_header()
         self.db_instance.insert_member(st.session_state.chat_id, st.session_state.name)
 
@@ -154,7 +135,7 @@ class Brains:
                 # 可視化チェック
                 self.visualizer(log_message)
 
-            if self.personas is not None:
+            if st.session_state.personas is not None:
                 if log_role == "assistant":
                     messages.append({"role": "assistant", "content": log_message})
                 else:
@@ -189,20 +170,23 @@ class Brains:
             action_list = []
             if "@" in user_msg:
                 if "@all" in user_msg:
-                    action_list = self.ai_list.copy()
+                    action_list = st.session_state.ai_list.copy()
                 else:
                     action_list = [
-                        info for info in self.ai_list if f"@{info}" in user_msg
+                        info
+                        for info in st.session_state.ai_list
+                        if f"@{info}" in user_msg
                     ]
             else:
-                if len(self.ai_list):
+                if len(st.session_state.ai_list):
                     if st.session_state.brains_action in ["Keep", "キープ"]:
                         if st.session_state.current_ai_name:
                             action_list = [st.session_state.current_ai_name]
 
                     if st.session_state.brains_action in ["Default", "デフォルト"]:
                         action_list = random.sample(
-                            self.ai_list, random.randint(1, len(self.ai_list))
+                            st.session_state.ai_list,
+                            random.randint(1, len(st.session_state.ai_list)),
                         )
 
             try:
@@ -213,10 +197,11 @@ class Brains:
                         st.experimental_rerun()
 
                 for current_ai_name in action_list:
+                    print(current_ai_name)
                     all_msg = ""
                     ai_info = [
                         info
-                        for info in self.personas
+                        for info in st.session_state.personas
                         if info["name"] == current_ai_name
                     ][0]
                     current_ai_name = ai_info["name"]
@@ -226,7 +211,7 @@ class Brains:
                     rule = [
                         {
                             "role": "system",
-                            "content": self.base_rueles + "\n" + ai_roles,
+                            "content": st.session_state.base_rueles + "\n" + ai_roles,
                         }
                     ]
                     messages.append(
@@ -261,12 +246,15 @@ class Brains:
                     )
 
                     # メンションチェック
-                    for ai_name in self.ai_list:
+                    for ai_name in st.session_state.ai_list:
                         if f"@{ai_name}" in all_msg:
                             action_list.append(ai_name)
 
                     st.session_state.current_ai_name = current_ai_name
             except Exception as e:
+                t, v, tb = sys.exc_info()
+                print(traceback.format_exception(t, v, tb))
+                print(traceback.format_tb(e.__traceback__))
                 print(e.args)
                 with st.chat_message("chatbot", avatar="assistant"):
                     api_error_msg = (
@@ -306,6 +294,7 @@ class Brains:
             )
 
             if st.form_submit_button("Join"):
+                self.get_members()
                 st.session_state.chat_id = input_room_id
                 if all([input_name, input_room_id]):
                     if input_name not in self.member_names:
