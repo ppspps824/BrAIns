@@ -132,6 +132,7 @@ with st.expander("Config"):
             ai_set = brains_info[st.session_state.language][preset]
 
         db.reset_character_persona(st.session_state.chat_id)
+        print(ai_set)
 
         for persona_name, discription in ai_set:
             db.update_character_persona(
@@ -160,7 +161,7 @@ with st.expander("Config"):
 
 st.write("## BrAIns")
 personas = db.get_character_personas(st.session_state.chat_id)
-ai_list = "\n".join(f"|{info[1]}|{info[0]}|" for info in personas)
+ai_list = "\n".join(f'|{info["name"]}|{info["persona"]}|' for info in personas)
 st.write(
     f"""\n
 |Name|Role|

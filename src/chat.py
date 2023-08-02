@@ -27,14 +27,21 @@ class Brains:
             st.session_state.current_ai_name = ""
             st.session_state.language = "EN"
 
-        self.db_instance = database.Database()
+        self.db_instance = database.Database(st.session_state.chat_id)
         self.personas = self.db_instance.get_character_personas(
             st.session_state.chat_id
         )
-        self.ai_list = [info[1] for info in self.personas]
-        self.assistants = "- " + "\n- ".join(
-            [f"Name:{info[1]},Role:{info[0]}" for info in self.personas]
-        )
+        if self.personas:
+            self.ai_list = [info["name"] for info in self.personas]
+            self.assistants = "- " + "\n- ".join(
+                [
+                    f'Name:{info["name"]},Role:{info["persona"]}'
+                    for info in self.personas
+                ]
+            )
+        else:
+            self.ai_list = []
+            self.assistants = ""
 
         self.base_rueles = f"""
         You are an AI chatbot. Please follow the rules below to interact with us.
@@ -53,7 +60,7 @@ class Brains:
         """
         members = self.db_instance.get_member(st.session_state.chat_id)
         if members:
-            members = [name[0] for name in members]
+            members = [name["name"] for name in members]
 
         self.member_names = list(set(members)) + self.ai_list
         self.member_names_text = ",".join(self.member_names)
@@ -105,13 +112,9 @@ class Brains:
         )
 
         for msg_info in chat_log:
-            (
-                log_chat_id,
-                log_name,
-                log_role,
-                log_message,
-                log_sent_time,
-            ) = msg_info
+            log_name = msg_info["name"]
+            log_role = msg_info["role"]
+            log_message = msg_info["message"]
             # Show chat message
 
             if log_role == "assistant":
@@ -182,10 +185,12 @@ class Brains:
                 for current_ai_name in action_list:
                     all_msg = ""
                     ai_info = [
-                        info for info in self.personas if info[1] == current_ai_name
+                        info
+                        for info in self.personas
+                        if info["name"] == current_ai_name
                     ][0]
-                    current_ai_name = ai_info[1]
-                    ai_roles = ai_info[0]
+                    current_ai_name = ai_info["name"]
+                    ai_roles = ai_info["persona"]
 
                     # Show chatbot message
                     rule = [
@@ -231,7 +236,8 @@ class Brains:
                             action_list.append(ai_name)
 
                     st.session_state.current_ai_name = current_ai_name
-            except:
+            except Exception as e:
+                print(e.args)
                 with st.chat_message("chatbot", avatar="assistant"):
                     api_error_msg = (
                         "BrAIns currently unavailable."
