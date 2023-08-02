@@ -61,8 +61,27 @@ class Database:
         (
             _self.supabase.table("character")
             .upsert(
-                {"chat_id": chat_id, "persona": persona, "name": name},
-                on_conflict="name",
+                {
+                    "key": f"{chat_id}-{name}",
+                    "chat_id": chat_id,
+                    "persona": persona,
+                    "name": name,
+                },
+                on_conflict="key",
+            )
+            .execute()
+        )
+        (
+            _self.supabase.table("member")
+            .upsert(
+                {
+                    "key": f"{chat_id}-{name}-99999999999999999999",
+                    "chat_id": chat_id,
+                    "name": name,
+                    "time": 99999999999999999999,
+                    "role": "assistant",
+                },
+                on_conflict="key",
             )
             .execute()
         )
@@ -82,10 +101,20 @@ class Database:
             }
         ).execute()
 
+        _self.supabase.table("member").delete().eq(
+            {
+                "chat_id": chat_id,
+                "name": name,
+            }
+        ).execute()
+
     def reset_character_persona(_self, chat_id: str):
         print("reset_character_persona")
         # Get character persona from database
         _self.supabase.table("character").delete().eq("chat_id", chat_id).execute()
+        _self.supabase.table("member").delete().eq("chat_id", chat_id).eq(
+            "role", "assistant"
+        ).execute()
 
     def get_member(_self, chat_id: str):
         print("get_member")
@@ -111,9 +140,11 @@ class Database:
         t_now = datetime.datetime.now()
         _self.supabase.table("member").insert(
             {
+                "key": f'{chat_id}-{name}-{int(t_now.strftime("%Y%m%d%H%M%S%f"))}',
                 "chat_id": chat_id,
                 "time": int(t_now.strftime("%Y%m%d%H%M%S%f")),
                 "name": name,
+                "role": "user",
             }
         ).execute()
 

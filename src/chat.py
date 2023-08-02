@@ -44,7 +44,7 @@ class Brains:
         if members:
             members = [name["name"] for name in members]
 
-        self.member_names = list(set(members)) + st.session_state.ai_list
+        self.member_names = list(set(members))
         self.member_names_text = ",".join(self.member_names)
 
     def handler(self):
