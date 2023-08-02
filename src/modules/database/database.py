@@ -136,7 +136,6 @@ class Database:
 
     def insert_member(_self, chat_id: str, name: str):
         print("insert_member")
-        print(chat_id, name)
         # Get character persona from database
         t_now = datetime.datetime.now()
         _self.supabase.table("member").insert(
