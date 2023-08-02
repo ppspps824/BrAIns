@@ -132,7 +132,6 @@ with st.expander("Config"):
             ai_set = brains_info[st.session_state.language][preset]
 
         db.reset_character_persona(st.session_state.chat_id)
-        print(ai_set)
 
         for persona_name, discription in ai_set:
             db.update_character_persona(

@@ -1,5 +1,7 @@
 {
   "EN": {
+    "Nothing": [],
+    "Generating": [],
     "Small Talk": [
       [
         "Bob",
@@ -22,8 +24,6 @@
         "Gender: female Age: 20s Occupation: college student Hobbies: dance, fashion, beauty Characteristics: energetic and cheerful personality, I love to dance. I know a lot about the latest dance trends and famous dancers, and sometimes perform various dance styles myself. I am also interested in fashion and beauty and can give you tips on trendy coordination and makeup."
       ]
     ],
-    "Nothing": [],
-    "Generating": [],
     "Brain Storming": [
       ["Steve", "creative and artistic point of view"],
       ["Eron", "technical and logical point of view"],
@@ -55,6 +55,8 @@
     ]
   },
   "JP": {
+    "指定なし": [],
+    "ランダム生成": [],
     "雑談": [
       [
         "ボブ",
@@ -77,8 +79,6 @@
         "性別: 女性 年齢: 20代 職業: 大学生 趣味: ダンス、ファッション、美容 特徴: 元気で明るい性格で、ダンスが大好きです。最新のダンスのトレンドや有名なダンサーについても詳しく、自身も様々なダンススタイルを披露することがあります。また、ファッションや美容にも興味があり、流行りのコーディネートやメイクの tips を教えてくれることもあります。"
       ]
     ],
-    "指定なし": [],
-    "ランダム生成": [],
     "ブレスト": [
       ["スティーブ", "創造的で芸術的な視点を持つ "],
       ["イーロン", "技術的で論理的な視点を持つ "],
