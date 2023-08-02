@@ -49,6 +49,8 @@ class Brains:
         - Act according to your assigned role.
         - Do not duplicate other assistants comments, including those of others.
         - Identify the roles of other assistants and seek input from appropriate assistants.
+        - Actively use figures and graphs as well as text
+        - When generating figures and graphs, output them in graphviz format.
         - Mentions should be "@name".
         - Do not send mentions to yourself.
 
@@ -71,6 +73,37 @@ class Brains:
         else:
             self.front_page()
 
+    def admin(self):
+        sql = st.text_input("sql")
+        if sql:
+            result = self.db_instance.run_query(sql)
+            st.dataframe(result)
+
+    def visualizer(self, text: str):
+        try:
+            graph_text=text.replace("graphviz","").replace("diagraph","graph")
+            digraph_start = graph_text.find("```") + 4
+            if digraph_start:
+                digraph_end = graph_text.rfind("```") - 1
+                digraph_text = graph_text[digraph_start:digraph_end]
+                st.graphviz_chart(digraph_text)
+        except:
+            pass
+        try:
+            if "http" in text:
+                if "youtu" in text:
+                    url_start=text.find("https")
+                    url_end=text[url_start:].find(" ")
+                    if url_end>0:
+                        url=text[url_start:url_end]
+                    else:
+                        url=text[url_start:]
+                    st.video(url)
+                else:
+                    st.image(url)
+        except:
+            pass
+            
     def setting_header(self):
         if self.member_names_text:
             room_info = f"{st.session_state.chat_id} / {st.session_state.brains_action}"
@@ -123,6 +156,9 @@ class Brains:
                 avater = None
             with st.chat_message(log_name, avatar=avater):
                 st.write(log_name + ":\n\n" + log_message)
+
+                # 可視化チェック
+                self.visualizer(log_message)
 
             if self.personas is not None:
                 if log_role == "assistant":
@@ -276,15 +312,23 @@ class Brains:
             )
 
             if st.form_submit_button("Join"):
-                st.session_state.chat_id = input_room_id
-                if all([input_name, input_room_id]):
-                    if input_name not in self.member_names:
-                        st.session_state.name = input_name
-                        st.experimental_rerun()
-                    else:
-                        st.warning("Name is duplicated with another participant.")
+                if all(
+                    [
+                        input_name == st.secrets["admin_id"],
+                        input_room_id == st.secrets["admin_pass"],
+                    ]
+                ):
+                    self.admin()
                 else:
-                    st.warning("Enter your name and room name.")
+                    st.session_state.chat_id = input_room_id
+                    if all([input_name, input_room_id]):
+                        if input_name not in self.member_names:
+                            st.session_state.name = input_name
+                            st.experimental_rerun()
+                        else:
+                            st.warning("Name is duplicated with another participant.")
+                    else:
+                        st.warning("Enter your name and room name.")
 
         with st.expander(
             "About BrAIns" if st.session_state.language == "EN" else "BrAInsとは"
