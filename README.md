@@ -1,7 +1,7 @@
 # BrAIns is
 AI(BrAIn)-participating multi-chat.
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)]("https://brains.streamlit.app/")
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://brains.streamlit.app/)
 
 ### How to start
 - Enter your name and room name, and press Join button to start chatting.
@@ -30,7 +30,7 @@ AI(BrAIn)-participating multi-chat.
 # BrAInsとは
 AI(BrAIn)参加型のマルチチャットです。
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)]("https://brains.streamlit.app/")
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://brains.streamlit.app/)
 
 ### 開始方法
 - 名前とルーム名を入力し、Joinボタンを押すとチャットが開始します。
