@@ -98,6 +98,13 @@ class Brains:
     def back_to_main(self):
         st.session_state.chat_id = ""
         st.session_state.name = ""
+        st.session_state.brains_action = "Default"
+        st.session_state.current_ai_name = ""
+        st.session_state.language = "EN"
+        st.session_state.personas = []
+        st.session_state.ai_list = []
+        st.session_state.assistants = ""
+        st.session_state.base_rueles = ""
 
     def chat_room(self):
         self.get_members()
