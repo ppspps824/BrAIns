@@ -1,7 +1,14 @@
+
 # BrAIns is
 AI(BrAIn)-participating multi-chat.
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://brains.streamlit.app/)
+
+![image](https://github.com/ppspps824/BrAIns/assets/34480286/73fb82e9-d0f7-4e61-b905-7313688fc708)
+
+![image](https://github.com/ppspps824/BrAIns/assets/34480286/279e7200-613a-45ca-860f-16e5fc8329ea)
+
+
 
 ### How to start
 - Enter your name and room name, and press Join button to start chatting.
