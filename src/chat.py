@@ -34,8 +34,7 @@ class Brains:
             st.session_state.ai_list = []
             st.session_state.assistants = ""
             st.session_state.base_rueles = ""
-            st.session_state.random_room_name=""
-
+            
         self.db_instance = database.Database(st.session_state.chat_id)
 
         self.member_names = []
@@ -44,7 +43,7 @@ class Brains:
     def create_random_room_name():
         n=10
         res="".join([random.choice(string.ascii_letters + string.digits) for i in range(n)])
-        st.session_state.random_room_name=res
+        return res
         
         
     def get_members(self):
