@@ -1,5 +1,6 @@
 import datetime
 import random
+import string
 import sys
 import traceback
 
@@ -33,12 +34,19 @@ class Brains:
             st.session_state.ai_list = []
             st.session_state.assistants = ""
             st.session_state.base_rueles = ""
+            st.session_state.random_room_name=""
 
         self.db_instance = database.Database(st.session_state.chat_id)
 
         self.member_names = []
         self.member_names_text = ""
-
+        
+    def create_random_room_name():
+        n=10
+        res="".join([random.choice(string.ascii_letters + string.digits) for i in range(n)])
+        st.session_state.random_room_name=res
+        
+        
     def get_members(self):
         members = self.db_instance.get_member(st.session_state.chat_id)
         if members:
@@ -298,6 +306,7 @@ class Brains:
                 placeholder="Jones Film Club"
                 if st.session_state.language == "EN"
                 else "映画同好会0101",
+                value=create_random_room_name()
             )
 
             if st.form_submit_button("Join"):
