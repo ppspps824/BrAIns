@@ -305,7 +305,7 @@ class Brains:
                 placeholder="Jones Film Club"
                 if st.session_state.language == "EN"
                 else "映画同好会0101",
-                value=create_random_room_name()
+                value=self.create_random_room_name()
             )
 
             if st.form_submit_button("Join"):
