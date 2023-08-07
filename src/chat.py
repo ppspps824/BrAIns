@@ -40,7 +40,7 @@ class Brains:
         self.member_names = []
         self.member_names_text = ""
         
-    def create_random_room_name():
+    def create_random_room_name(self):
         n=10
         res="".join([random.choice(string.ascii_letters + string.digits) for i in range(n)])
         return res
