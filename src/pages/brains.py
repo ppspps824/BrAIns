@@ -7,8 +7,9 @@ from streamlit_extras.switch_page_button import switch_page
 from modules import common
 from modules.database import database
 
+print("brains")
 common.hide_style()
-db = database.Database()
+db_instance = database.Database()
 
 
 def create_random_brains():
@@ -131,10 +132,10 @@ with st.expander("Config"):
         else:
             ai_set = brains_info[st.session_state.language][preset]
 
-        db.reset_character_persona(st.session_state.chat_id)
+        db_instance.reset_character_persona(st.session_state.chat_id)
 
         for persona_name, discription in ai_set:
-            db.update_character_persona(
+            db_instance.update_character_persona(
                 st.session_state.chat_id, persona_name, discription
             )
 
@@ -152,15 +153,47 @@ with st.expander("Config"):
     )
     if st.button("Add or Update"):
         # Set persona
-        db.update_character_persona(st.session_state.chat_id, persona_name, discription)
+        db_instance.update_character_persona(
+            st.session_state.chat_id, persona_name, discription
+        )
         st.experimental_rerun()
     if st.button("Delete"):
-        db.delete_character_persona(st.session_state.chat_id, persona_name)
+        db_instance.delete_character_persona(st.session_state.chat_id, persona_name)
         st.experimental_rerun()
 
 st.write("## BrAIns")
-personas = db.get_character_personas(st.session_state.chat_id)
-ai_list = "\n".join(f"|{info[1]}|{info[0]}|" for info in personas)
+
+st.session_state.personas = db_instance.get_character_personas(st.session_state.chat_id)
+if st.session_state.personas:
+    st.session_state.ai_list = [info["name"] for info in st.session_state.personas]
+    st.session_state.assistants = "- " + "\n- ".join(
+        [
+            f'Name:{info["name"]},Role:{info["persona"]}'
+            for info in st.session_state.personas
+        ]
+    )
+else:
+    st.session_state.ai_list = []
+    st.session_state.assistants = ""
+
+st.session_state.base_rueles = f"""
+You are an AI chatbot. Please follow the rules below to interact with us.
+## Rules
+- Act according to your assigned role.
+- Do not duplicate other assistants comments, including those of others.
+- Identify the roles of other assistants and seek input from appropriate assistants.
+- Actively use figures and graphs as well as text
+- When generating figures and graphs, output them in graphviz format.
+- Mentions should be "@name".
+- Do not send mentions to your
+
+## List of Assistants
+{st.session_state.assistants}
+## Role
+"""
+ai_list = "\n".join(
+    f'|{info["name"]}|{info["persona"]}|' for info in st.session_state.personas
+)
 st.write(
     f"""\n
 |Name|Role|

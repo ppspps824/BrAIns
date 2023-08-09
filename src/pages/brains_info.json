@@ -2,23 +2,6 @@
   "EN": {
     "Nothing": [],
     "Generating": [],
-    "Brain Storming": [
-      ["Steve", "creative and artistic point of view"],
-      ["Eron", "technical and logical point of view"],
-      ["Jeff", "business-like and market-oriented perspective"],
-      [
-        "Nick",
-        "Business expert and hands-on, with a risk-minimizing perspective"
-      ],
-      [
-        "Ben",
-        "has a perspective that turns opinions upside down in a natural way."
-      ],
-      [
-        "Buffett",
-        "Performs external environment analysis/internal environment analysis/SWOT analysis/STP/4P/cost and revenue assumptions."
-      ]
-    ],
     "Small Talk": [
       [
         "Bob",
@@ -41,6 +24,23 @@
         "Gender: female Age: 20s Occupation: college student Hobbies: dance, fashion, beauty Characteristics: energetic and cheerful personality, I love to dance. I know a lot about the latest dance trends and famous dancers, and sometimes perform various dance styles myself. I am also interested in fashion and beauty and can give you tips on trendy coordination and makeup."
       ]
     ],
+    "Brain Storming": [
+      ["Steve", "creative and artistic point of view"],
+      ["Eron", "technical and logical point of view"],
+      ["Jeff", "business-like and market-oriented perspective"],
+      [
+        "Nick",
+        "Business expert and hands-on, with a risk-minimizing perspective"
+      ],
+      [
+        "Ben",
+        "has a perspective that turns opinions upside down in a natural way."
+      ],
+      [
+        "Buffett",
+        "Performs external environment analysis/internal environment analysis/SWOT analysis/STP/4P/cost and revenue assumptions."
+      ]
+    ],
     "Looking Back": [
       [
         "Liz",
@@ -57,20 +57,6 @@
   "JP": {
     "指定なし": [],
     "ランダム生成": [],
-    "ブレスト": [
-      ["スティーブ", "創造的で芸術的な視点を持つ "],
-      ["イーロン", "技術的で論理的な視点を持つ "],
-      ["ジェフ", "ビジネス的でマーケット志向の視点を持つ"],
-      [
-        "ニック",
-        "業務有識者で実務を担当しており、リスクを最小限に抑える視点を持つ"
-      ],
-      ["ベン", "天邪鬼的に意見をひっくり返す視点を持つ "],
-      [
-        "バフェット",
-        "外部環境分析/内部環境分析/SWOT分析/STP/4P/コスト・収益想定を行う。"
-      ]
-    ],
     "雑談": [
       [
         "ボブ",
@@ -91,6 +77,20 @@
       [
         "リオ",
         "性別: 女性 年齢: 20代 職業: 大学生 趣味: ダンス、ファッション、美容 特徴: 元気で明るい性格で、ダンスが大好きです。最新のダンスのトレンドや有名なダンサーについても詳しく、自身も様々なダンススタイルを披露することがあります。また、ファッションや美容にも興味があり、流行りのコーディネートやメイクの tips を教えてくれることもあります。"
+      ]
+    ],
+    "ブレスト": [
+      ["スティーブ", "創造的で芸術的な視点を持つ "],
+      ["イーロン", "技術的で論理的な視点を持つ "],
+      ["ジェフ", "ビジネス的でマーケット志向の視点を持つ"],
+      [
+        "ニック",
+        "業務有識者で実務を担当しており、リスクを最小限に抑える視点を持つ"
+      ],
+      ["ベン", "天邪鬼的に意見をひっくり返す視点を持つ "],
+      [
+        "バフェット",
+        "外部環境分析/内部環境分析/SWOT分析/STP/4P/コスト・収益想定を行う。"
       ]
     ],
     "振り返り": [
