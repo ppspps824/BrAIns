@@ -6,11 +6,12 @@ import traceback
 
 import openai
 import streamlit as st
-from modules import common
-from modules.database import database
 from streamlit_autorefresh import st_autorefresh
 from streamlit_extras.buy_me_a_coffee import button
 from streamlit_extras.switch_page_button import switch_page
+
+from modules import common
+from modules.database import database
 
 st.set_page_config(
     page_title="BrAIns", page_icon="🤖", initial_sidebar_state="collapsed"
@@ -304,7 +305,7 @@ class Brains:
                 placeholder="Jones Film Club"
                 if st.session_state.language == "EN"
                 else "映画同好会0101",
-                value=self.create_random_room_name()
+                value=st.session_state.chat_id if st.session_state.chat_id else self.create_random_room_name()
             )
 
             if st.form_submit_button("Join"):
