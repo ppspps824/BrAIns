@@ -300,12 +300,17 @@ class Brains:
                 "Name",
                 placeholder="Jones" if st.session_state.language == "EN" else "さとう",
             )
+            if st.session_state.chat_id:
+                value=st.session_state.chat_id
+            else:
+                value=self.create_random_room_name()
+                
             input_room_id = st.text_input(
                 "Room",
                 placeholder="Jones Film Club"
                 if st.session_state.language == "EN"
                 else "映画同好会0101",
-                value=st.session_state.chat_id if st.session_state.chat_id else self.create_random_room_name()
+                value=value
             )
 
             if st.form_submit_button("Join"):
