@@ -1,7 +1,12 @@
 import datetime
+import os
 
 import streamlit as st
+from dotenv import load_dotenv
 from st_supabase_connection import SupabaseConnection
+
+# .envファイルを読み込み
+load_dotenv(verbose=True)
 
 
 class Database:
@@ -12,11 +17,11 @@ class Database:
     @st.cache_resource
     def get_connection(_self, connection_name):
         print("get_connection")
-        supabase = st.experimental_connection(
+        supabase = st.connection(
             name=connection_name,
             type=SupabaseConnection,
-            url=st.secrets["supabase_url"],
-            key=st.secrets["supabase_key"],
+            url=os.environ.get("supabase_url"),
+            key=os.environ.get("supabase_key"),
         )
         return supabase
 

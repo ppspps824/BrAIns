@@ -1,4 +1,5 @@
 import datetime
+import os
 import random
 import string
 import sys
@@ -6,11 +7,15 @@ import traceback
 
 import openai
 import streamlit as st
+from dotenv import load_dotenv
 from modules import common
 from modules.database import database
 from streamlit_autorefresh import st_autorefresh
 from streamlit_extras.buy_me_a_coffee import button
 from streamlit_extras.switch_page_button import switch_page
+
+# .envファイルを読み込み
+load_dotenv(verbose=True)
 
 st.set_page_config(
     page_title="BrAIns", page_icon="🤖", initial_sidebar_state="collapsed"
@@ -120,8 +125,7 @@ class Brains:
 
         messages = []
         # Get chatbot settings
-        openai_api_key = st.secrets["OPENAI_API_KEY"]
-        openai.api_key = openai_api_key
+        openai.api_key = os.environ.get("OPENAI_API_KEY")
 
         name = st.session_state.name
         user_msg = st.chat_input(

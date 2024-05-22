@@ -1,7 +1,7 @@
-streamlit==1.25.0
-streamlit-autorefresh==1.0.1
-extra-streamlit-components==0.1.56
-st-pages==0.4.3
-openai==0.27.2
-streamlit_extras==0.2.7
-st-supabase-connection==0.0.2
+streamlit
+streamlit-autorefresh
+extra-streamlit-components
+st-pages
+openai
+streamlit_extras
+st-supabase-connection
