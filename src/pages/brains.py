@@ -2,10 +2,9 @@ import json
 
 import openai
 import streamlit as st
-from streamlit_extras.switch_page_button import switch_page
-
 from modules import common
 from modules.database import database
+from streamlit_extras.switch_page_button import switch_page
 
 print("brains")
 common.hide_style()
@@ -67,22 +66,21 @@ Please do not explain the contents, etc., and output only the generated product.
         st.stop()
 
     correct = False
+    gen_ai_set = {}
     for count in range(3):
         with st.spinner(f"Generating...:{count+1}"):
-            result = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+            response = openai.chat.completions.create(
+                model="gpt-4o",
                 messages=prompt,
             )
             try:
-                gen_ai_set = json.loads(result["choices"][0]["message"]["content"])
-                correct = True
-                break
+                gen_ai_set = json.loads(response.choices[0].message.content)
+                return gen_ai_set
             except:
                 continue
     if not correct:
         st.write("Please Retry😢")
-
-    return gen_ai_set
+        st.stop()
 
 
 st.write("")
@@ -104,7 +102,9 @@ with st.expander("Config"):
         brains_action_options = ["デフォルト", "キープ", "メンション"]
         brains_action_label = "応答方法"
         brains_action_help = "いずれのモードでもメンションの利用が可能です。"
-        brains_action_mention = "「@名前」で個別、複数指定。「@all」で全員が応答します。"
+        brains_action_mention = (
+            "「@名前」で個別、複数指定。「@all」で全員が応答します。"
+        )
         brains_action_keep = "直近に発言したBrAInが応答します。"
         brains_action_random = "BrAIn達がランダムに応答します。"
 

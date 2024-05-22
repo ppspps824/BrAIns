@@ -239,16 +239,14 @@ class Brains:
                         messages.pop(1)
 
                     prompt = rule + messages
-                    completion = openai.ChatCompletion.create(
-                        model="gpt-3.5-turbo", messages=prompt, stream=True
+                    completion = openai.chat.completions.create(
+                        model="gpt-4o", messages=prompt, stream=True
                     )
 
                     with st.chat_message("chatbot", avatar="assistant"):
                         msg_place = st.empty()
                         for msg in completion:
-                            assistant_msg = msg["choices"][0]["delta"].get(
-                                "content", ""
-                            )
+                            assistant_msg = msg.choices[0].delta.content or ""
                             all_msg += assistant_msg
                             all_msg = all_msg.replace(f"@{current_ai_name}", "")
                             msg_place.write(current_ai_name + ":\n\n" + all_msg)
