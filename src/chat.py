@@ -33,7 +33,6 @@ class Brains:
             st.session_state.chat_id = ""
             st.session_state.brains_action = "Default"
             st.session_state.current_ai_name = ""
-            st.session_state.language = "EN"
             st.session_state.personas = []
             st.session_state.ai_list = []
             st.session_state.assistants = ""
@@ -112,7 +111,6 @@ class Brains:
         st.session_state.name = ""
         st.session_state.brains_action = "Default"
         st.session_state.current_ai_name = ""
-        st.session_state.language = "EN"
         st.session_state.personas = []
         st.session_state.ai_list = []
         st.session_state.assistants = ""
@@ -209,9 +207,7 @@ class Brains:
 
             try:
                 if action_list:
-                    if st.button(
-                        "Stop" if st.session_state.language == "EN" else "ストップ"
-                    ):
+                    if st.button("ストップ"):
                         st.rerun()
 
                 for current_ai_name in action_list:
@@ -244,24 +240,18 @@ class Brains:
                     )
 
                     with st.chat_message("chatbot", avatar="assistant"):
-                        msg_place = st.container()
-                        msg_place.write(current_ai_name + ":\n\n")
-                        all_msg = msg_place.write_stream(completion).replace(
+                        st.write(current_ai_name + ":\n\n")
+                        assistant_msg = st.write_stream(completion).replace(
                             f"@{current_ai_name}", ""
                         )
-                        # for msg in completion:
-                        #     assistant_msg = msg.choices[0].delta.content or ""
-                        #     all_msg += assistant_msg
-                        #     all_msg = all_msg.replace(f"@{current_ai_name}", "")
-                        #     msg_place.write(current_ai_name + ":\n\n" + all_msg)
 
-                    messages[-1]["content"] += all_msg
+                    messages[-1]["content"] += assistant_msg
 
                     self.db_instance.insert_chat_log(
                         chat_id=st.session_state.chat_id,
                         name=current_ai_name,
                         role="assistant",
-                        message=all_msg,
+                        message=assistant_msg,
                         sent_time=datetime.datetime.now(),
                     )
 
@@ -277,11 +267,7 @@ class Brains:
                 print(traceback.format_tb(e.__traceback__))
                 print(e.args)
                 with st.chat_message("chatbot", avatar="assistant"):
-                    api_error_msg = (
-                        "BrAIns currently unavailable."
-                        if st.session_state.language == "EN"
-                        else "現在BrAInsを利用できません。"
-                    )
+                    api_error_msg = "現在BrAInsを利用できません。"
                     st.error(api_error_msg)
                     self.db_instance.insert_chat_log(
                         chat_id=st.session_state.chat_id,
@@ -295,29 +281,21 @@ class Brains:
 
     def front_page(self):
         cols = st.columns([6, 1])
-        st.session_state.language = cols[1].selectbox(
-            " ", options=["EN", "JP"], label_visibility="collapsed"
-        )
         cols[0].image("resource/logo.jpg")
         room_num = self.db_instance.get_room_num()
+        cols[1].write("")
         cols[1].caption(f"Number of Rooms :{room_num}")
         with st.form("UserInfo"):
             input_name = st.text_input(
                 "Name",
-                placeholder="Jones" if st.session_state.language == "EN" else "さとう",
+                placeholder="さとう",
             )
             if st.session_state.chat_id:
                 value = st.session_state.chat_id
             else:
                 value = self.create_random_room_name()
 
-            input_room_id = st.text_input(
-                "Room",
-                placeholder="Jones Film Club"
-                if st.session_state.language == "EN"
-                else "映画同好会0101",
-                # value=self.create_random_room_name()
-            )
+            input_room_id = st.text_input("Room", placeholder="映画同好会0101")
 
             if st.form_submit_button("Join"):
                 self.get_members()
@@ -331,37 +309,8 @@ class Brains:
                 else:
                     st.warning("Enter your name and room name.")
 
-        with st.expander(
-            "About BrAIns" if st.session_state.language == "EN" else "BrAInsとは"
-        ):
-            if st.session_state.language == "EN":
-                about_msg = """
-                AI(BrAIn)-participating multi-chat.
-
-            ### How to start
-            - Enter your name and room name, and press Join button to start chatting.
-            - If the room name already exists, you will be joined; if not, a new room will be created.
-            - If the room name does not exist, a new room will be created.
-
-            ### Chat Screen
-            - You can speak by typing your message in the input field at the bottom of the page.
-            - To join BrAIn, go to the configuration screen from 🤖 in the upper right corner and set it up.
-            - The default setting is random response, with @BrAIn name for individual response and @all for everyone response.
-
-            ### Config Screen
-            - You can view it by 🤖 in the upper right corner of the chat screen.
-            - You can select BrAIns to join from presets such as "Breast" and "Chat" and choose the response method.
-            - You can also randomly generate BrAIns or set your own BrAIns.
-
-            ### Donation Request
-            - Due to the personal development of this service, we have set a limit on the amount of OpenAI API usage.
-            - Therefore, if you exceed the monthly usage limit, AI functions will not be available.
-            - Donations will be returned to the amount used.
-            - Also, we are currently using GPT3.5 in order to have more users, but we are considering upgrading to GPT4 depending on how many people donate.
-            - Please click the 👇 button to make a donation. 🙇‍♂️
-                """
-            elif st.session_state.language == "JP":
-                about_msg = """
+        with st.expander("BrAInsとは"):
+            about_msg = """
             AI(BrAIn)参加型のマルチチャットです。
             
             ### 開始方法
