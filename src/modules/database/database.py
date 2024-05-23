@@ -14,7 +14,7 @@ class Database:
         print("__init_")
         _self.supabase = _self.get_connection(connection_name)
 
-    @st.cache_resource()
+    @st.cache_resource(show_spinner=False)
     def get_connection(_self, connection_name):
         print("get_connection")
         supabase = st.connection(
