@@ -169,7 +169,7 @@ class Brains:
         if user_msg:
             if user_msg in ["All Clear", "オールクリア"]:
                 self.db_instance.delete_all_chat_logs(st.session_state.chat_id)
-                st.experimental_rerun()
+                st.rerun()
 
             self.db_instance.insert_chat_log(
                 chat_id=st.session_state.chat_id,
@@ -212,7 +212,7 @@ class Brains:
                     if st.button(
                         "Stop" if st.session_state.language == "EN" else "ストップ"
                     ):
-                        st.experimental_rerun()
+                        st.rerun()
 
                 for current_ai_name in action_list:
                     print(current_ai_name)
@@ -244,12 +244,16 @@ class Brains:
                     )
 
                     with st.chat_message("chatbot", avatar="assistant"):
-                        msg_place = st.empty()
-                        for msg in completion:
-                            assistant_msg = msg.choices[0].delta.content or ""
-                            all_msg += assistant_msg
-                            all_msg = all_msg.replace(f"@{current_ai_name}", "")
-                            msg_place.write(current_ai_name + ":\n\n" + all_msg)
+                        msg_place = st.container()
+                        msg_place.write(current_ai_name + ":\n\n")
+                        all_msg = msg_place.write_stream(completion).replace(
+                            f"@{current_ai_name}", ""
+                        )
+                        # for msg in completion:
+                        #     assistant_msg = msg.choices[0].delta.content or ""
+                        #     all_msg += assistant_msg
+                        #     all_msg = all_msg.replace(f"@{current_ai_name}", "")
+                        #     msg_place.write(current_ai_name + ":\n\n" + all_msg)
 
                     messages[-1]["content"] += all_msg
 
@@ -321,7 +325,7 @@ class Brains:
                 if all([input_name, input_room_id]):
                     if input_name not in self.member_names:
                         st.session_state.name = input_name
-                        st.experimental_rerun()
+                        st.rerun()
                     else:
                         st.warning("Name is duplicated with another participant.")
                 else:

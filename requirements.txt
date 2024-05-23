@@ -5,3 +5,4 @@ st-pages
 openai
 streamlit_extras
 st-supabase-connection
+python-dotenv
